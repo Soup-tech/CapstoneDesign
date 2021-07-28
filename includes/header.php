@@ -1,4 +1,5 @@
 <?php session_start() ?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -10,9 +11,15 @@
 		<div class="header">
 			<a href="#default" class="logo">Our_Logo</a>
 			<div class="header-right">
-				<a class="active" href="#home">Home</a>
+				<?php 
+					if (isset($_SESSION['id'])): ?>
+						<a class='navigation-link' href='#home'>Home</a>
+					<?php else: ?>
+						<a class='navigation-link' href='index.php'>Login</a>
+					<?php endif ?>
+
 				<a href="#contact">Contact</a>
-				<a href="#about">About</a>
+				<a href="about-us.php">About</a>
 			</div>
 		</div>
 	</body>

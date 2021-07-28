@@ -1,5 +1,6 @@
  <?php
 	require 'includes/header.php';
+	require_once 'includes/dbhandler.php';
 
 	// Start session
 	session_start();
@@ -28,13 +29,13 @@
 		} else {
 			$password = trim($_POST['password']);
 		}
-
+		
 		// Check if creds are valid
 		if (empty($username_err) && empty($password_err)) {
 			// Prepare sql query
 			$sql = "SELECT id, username, password FROM accounts WHERE usrname=?";
 
-			if ($stmt = mysqli_prepare($link,$sql)) {
+			if ($stmt = mysqli_prepare($conn,$sql)) {
 				// Bind the variables
 				mysqli_stmt_bind_param($stmt, "s", $param_username);
 
@@ -48,15 +49,35 @@
 
 					// Check if username exists
 					if (mysqli_stmt_num_rows($stmt) == 1) {
-						
+						mysqli_stmt_bind_result($stmt, $id, $username, $hash_password);
+
+						if (mysqli_stmt_fetch($stmt)) {
+							if (password_verify($password, $hashed_password)) {
+								// Password is correct
+								session_start();
+
+								$_SESSION["loggedin"] = True;
+								$_SESSION['id'] = $id;
+								$_SESSION['username'] = $username;
+
+								header("Location: home.php");
+							} else {
+								$login_err = "Invalid username or password";
+							}
+						}
+					} else {
+						$login_err = "Invalid username or password";
 					}
+				} else {
+					echo "Something went wrong :C";
 				}
+
+				// Close
+				mysqli_stmt_close($stmt);
 			}
-
 		}
-
+		mysqli_close($conn);
 	}
-
 ?> 
 
 <!DOCTYPE html>
@@ -67,7 +88,7 @@
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<style>
 		body { font: 14px sans-serif; }
-		.wrapper{ width: 360px; padding: 20px; }
+		.wrapper{ width: 360px; padding: 20px; margin: 100px auto;}
 	</style>
 </head>
 <body>

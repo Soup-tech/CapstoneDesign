@@ -1,5 +1,5 @@
 <?php
-    require 'includes/header.php';
+    require '../includes/header.php';
     session_start();
 
     // Check if the user is logged in, if not redirect to the login page
@@ -22,13 +22,13 @@
     <body>
         <div class="wrapper">
             <div class="form-group">
-                <a href="caregiver/caregiver-menu.php">Caregiver Menu</a>
+                <a href="edit-caregiver.php">Edit Caregivers</a>
             </div>
             <div class="form-group">
-                <a href="#system-settings">System Settings</a>
+                <a href="#edit-users">Edit Users</a>
             </div>
             <div class="form-group">
-                <a href="#history">History Menu</a>
+                <a href="#medication-and-scheduling">Medication and Scheduling Menu</a>
             </div>
         </div>
     </body>

@@ -33,7 +33,7 @@
 		// Check if creds are valid
 		if (empty($username_err) && empty($password_err)) {
 			// Prepare sql query
-			$sql = "SELECT id, username, password FROM accounts WHERE usrname=?";
+			$sql = "SELECT id,username,password FROM accounts WHERE username=?";
 
 			if ($stmt = mysqli_prepare($conn,$sql)) {
 				// Bind the variables
@@ -49,7 +49,7 @@
 
 					// Check if username exists
 					if (mysqli_stmt_num_rows($stmt) == 1) {
-						mysqli_stmt_bind_result($stmt, $id, $username, $hash_password);
+						mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
 
 						if (mysqli_stmt_fetch($stmt)) {
 							if (password_verify($password, $hashed_password)) {

@@ -47,13 +47,15 @@ def breath():
             for i in np.arange(0,1,0.05):
                 led.value = i
                 sleep(0.05)
+            led.value = 1
             toggle = 0
         elif (toggle == 0):
             for d in np.arange(1,0,-0.05):
                 led.value = d
                 sleep(0.05)
+            led.value = 0
             toggle = 1
-        sleep(1)
+        sleep(1.5)
 
 # ======= Main =======
 cur = mariadb_connection()

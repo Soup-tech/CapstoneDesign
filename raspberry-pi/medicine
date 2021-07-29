@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+########################################
+## Created by Maximillian A. Campbell ##
+########################################
+
+# ======= Modules =======
+import mariadb
+import sys
+import os
+import numpy as np
+from time import sleep
+from gpiozero import Button, PWMLED
+from signal import pause
+
+# ======= Variables =======
+button = Button(2)
+led = PWMLED(17)
+
+# ======= Function =======
+def mariadb_connection():
+    """
+    Establishes connection to MariaDB
+    Returns connection object
+    """
+    try:
+        conn = mariadb.connect(
+                user = "root",
+                password = "G0dH@d3s",
+                host = "127.0.0.1",
+                port = 3306,
+                database = "capstone"
+            )
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)
+
+    return conn.cursor()
+
+def breath():
+    """
+    Causes LED to start "breathing"
+    Breathing indicates it is time to take medicine
+    """
+    toggle = 1
+    while (not button.is_pressed):
+        if (toggle == 1):
+            for i in np.arange(0,1,0.05):
+                led.value = i
+                sleep(0.05)
+            toggle = 0
+        elif (toggle == 0):
+            for d in np.arange(1,0,-0.05):
+                led.value = d
+                sleep(0.05)
+            toggle = 1
+        sleep(1)
+
+# ======= Main =======
+cur = mariadb_connection()
+breath()

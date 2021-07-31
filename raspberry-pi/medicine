@@ -7,7 +7,6 @@
 import mariadb
 import sys
 import os
-import _thread
 import numpy as np
 import RPi.GPIO as GPIO
 from time import sleep

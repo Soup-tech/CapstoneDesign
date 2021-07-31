@@ -7,7 +7,9 @@
 import mariadb
 import sys
 import os
+import _thread
 import numpy as np
+import RPi.GPIO as GPIO
 from time import sleep
 from gpiozero import Button, PWMLED
 from signal import pause
@@ -46,17 +48,44 @@ def breath():
         if (toggle == 1):
             for i in np.arange(0,1,0.05):
                 led.value = i
+                if (button.is_pressed):
+                    sys.exit(0)
                 sleep(0.05)
             led.value = 1
             toggle = 0
         elif (toggle == 0):
             for d in np.arange(1,0,-0.05):
                 led.value = d
+                if (button.is_pressed):
+                    sys.exit(0)
                 sleep(0.05)
             led.value = 0
             toggle = 1
-        sleep(1.5)
+
+        sleep(0.1) # Change to breath faster/slower
+
+def dispense():
+    control_pins = [4,11,13,15] 
+    seq = [[1,0,0,0],
+           [1,1,0,0],
+           [0,1,0,0],
+           [0,1,1,0],
+           [0,0,1,0],
+           [0,0,1,1],
+           [0,0,0,1],
+           [1,0,0,1]]
+    for pin in control_pins:
+        GPIO.setup(pin,GPIO.out)
+        GPIO.output(pin,0)
+
+    for i in range(512):
+        for halfstep in range(8):
+            for pin in range(4):
+                GPIO.output(control_pins[pin], seq[halfstep][pin])
+            sleep(0.001)
+
 
 # ======= Main =======
 cur = mariadb_connection()
 breath()
+dispense()

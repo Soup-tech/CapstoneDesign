@@ -1,0 +1,6 @@
+@reboot path/to/medicine.py >/dev/null 2>&1 &
+
+When you are ready to make medicine a permenant process:
+$ crontab -e
+
+Insert line 1 at the bottom. Save file and exit.

@@ -12,6 +12,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 from gpiozero import Button, PWMLED
 from signal import pause
+from datetime import timedelta
 
 # ======= Variables =======
 button = Button(2)
@@ -85,6 +86,11 @@ def dispense():
 
 
 # ======= Main =======
+
 cur = mariadb_connection()
-breath()
-dispense()
+
+cur.execute("SELECT * FROM medicine")
+for line in cur:
+    print(line[2])
+# breath()
+# dispense()

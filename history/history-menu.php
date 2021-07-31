@@ -31,7 +31,7 @@
                 <a href="alerts.php">Alerts</a>
             </div>
             <div class="medication-amount">
-                <a href="#medication-amount">Medication Amount</a>
+                <a href="medication-amount.php">Medication Amount</a>
             </div>
             <div class="export">
                 <a href="#export">Export</a>

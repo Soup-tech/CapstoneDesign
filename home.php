@@ -28,7 +28,7 @@
                 <a href="#system-settings">System Settings</a>
             </div>
             <div class="form-group">
-                <a href="#history">History Menu</a>
+                <a href="history/history-menu.php">History Menu</a>
             </div>
         </div>
     </body>

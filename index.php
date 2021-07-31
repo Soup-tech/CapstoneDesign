@@ -15,6 +15,9 @@
 	$password = "";
 	$username_err = $password_err = $login_err = "";
 
+	$default_username = "admin";
+	$default_password = "admin2021";
+	
 	// Process data when form is submitted
 	if ($_SERVER['REQUEST_METHOD'] == "POST") {
 

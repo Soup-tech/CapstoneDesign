@@ -14,7 +14,7 @@
     <p>Initial setup of the Medmag has the default credentials:</p>
     <ul>
       <li>username: admin</li>
-      <li>password: admin</li>
+      <li>password: admin2021</li>
     </ul>
     <p>After loggin in you will be presented with a registration page. Fill in your information as well as change the default password. Afterwards you will be directed to the login page to login to your MedMag.</p>
     <p>TODO:</p>

@@ -12,12 +12,12 @@ import RPi.GPIO as GPIO
 from time import sleep
 from gpiozero import Button, PWMLED
 from signal import pause
-from datetime import timedelta
-
+from pydub import AudioSegment
+from pydub.playback import play
 
 # ======= Variables =======
 button = Button(2)
-led = PWMLED(17)
+pushed = False
 
 # ======= Function =======
 def mariadb_connection():
@@ -44,6 +44,7 @@ def breath():
     Causes LED to start "breathing"
     Breathing indicates it is time to take medicine
     """
+    led = PWMLED(17)
     toggle = 1
     while (not button.is_pressed):
         if (toggle == 1):
@@ -66,7 +67,7 @@ def breath():
         sleep(0.5) # Change to breath faster/slower
 
 def motor():
-    control_pins = [12,16,20,21] 
+    control_pins = [12,16,20,21] # GPIO pins 
     seq = [[1,0,0,0],
            [1,1,0,0],
            [0,1,0,0],
@@ -85,9 +86,22 @@ def motor():
                 GPIO.output(control_pins[pin], seq[halfstep][pin])
             sleep(0.001) # default is 0.001
 
-
+def audio():
+    intro = AudioSegment.from_mp3("intro.mp3")
+    looper = AudioSegment.from_mp3("looper.mp3")
+    play(intro)
+    while (not pushed):
+        looper = looper + 1
+        play(looper)
 # ======= Main =======
 
 cur = mariadb_connection()
-
-motor()
+q = os.fork()
+if (q == 0):
+    breath()
+else:
+    while (not button.is_pressed):
+        pass
+    pushed = True
+    motor()
+    pushed = False

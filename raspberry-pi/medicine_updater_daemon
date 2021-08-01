@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+
+import mariadb
+import sys
+from time import sleep
+def mariadb_connection():
+    try:
+        conn = mariadb.connect(
+                user = "root",
+                password = "G0dH@d3s",
+                host = "127.0.0.1",
+                port = 3306,
+                database = "capstone"
+            )
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform:: {e}")
+        sys.exit(1)
+    
+    return conn.cursor()
+
+cur = mariadb_connection()
+
+while True:
+    medicineFile = open("medicine_times.txt","w")
+    cur.execute("SELECT * FROM medicine")
+    for row in cur:
+        medicineFile.write(str(row) + '\n')    
+    
+    medicineFile.close()
+    sleep(5)

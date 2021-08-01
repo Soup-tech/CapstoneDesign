@@ -1,6 +1,11 @@
-@reboot path/to/medicine.py >/dev/null 2>&1 &
+@reboot path/to/medicine >/dev/null 2>&1 &
+@reboot path/to/medicine >/dev/null 2>&1 &
 
 When you are ready to make medicine a permenant process:
 $ crontab -e
 
 Insert line 1 at the bottom. Save file and exit.
+
+Note:
+	In the final deployment, move the raspberry-pi directory somewhere outside the webserver (such as /home/pi).
+	These files contain the username and password to the database. These files can be read from a web browser.

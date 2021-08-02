@@ -15,9 +15,7 @@
 	$password = "";
 	$username_err = $password_err = $login_err = "";
 
-	$default_username = "admin";
-	$default_password = "admin2021";
-	
+
 	// Process data when form is submitted
 	if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -56,14 +54,21 @@
 
 						if (mysqli_stmt_fetch($stmt)) {
 							if (password_verify($password, $hashed_password)) {
-								// Password is correct
-								session_start();
+								
+								// First time login
+								if ($username == "admin" && $password == "admin2021") {
+									header("Location: register.php");
+								} else {
+									// Password is correct
+									session_start();
 
-								$_SESSION["loggedin"] = True;
-								$_SESSION['id'] = $id;
-								$_SESSION['username'] = $username;
+									$_SESSION["loggedin"] = True;
+									$_SESSION['id'] = $id;
+									$_SESSION['username'] = $username;
 
-								header("Location: home.php");
+									header("Location: home.php");
+								}
+
 							} else {
 								$login_err = "Invalid username or password";
 							}

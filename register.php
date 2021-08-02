@@ -3,6 +3,8 @@
     include_once 'includes/dbhandler.php';
     
     // Variables
+    $name = $name_err = "";
+    $email = $email_err = "";
     $username = $username_err = "";
     $password = $password_err = "";
     $confrim_password = $confirm_password_err = "";
@@ -50,6 +52,20 @@
             $password_err = "Password must have at least 6 characters";
         } else {
             $password = trim($_POST["password"]);
+        }
+
+        // Validate name
+        if (empty(trim($_POST["name"]))) {
+            $name_err = "Please enter a name";
+        } else {
+            $name = trim($_POST["name"]);
+        }
+
+        // Validate email
+        if (empty(trim($_POST["email"]))) {
+            $email_err = "Please enter an email";
+        } else {
+            $email = trim($_POST["email"]);
         }
 
         // Check for erros before entering into database
@@ -100,6 +116,16 @@
             <h2>Sign Up</h2>
             <p>Please fill out this form to create an account</p>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
+                    <span class="invalid-feedback"><?php echo $name_err; ?></span>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
+                    <span class="invalid-feedback"><?php echo $email_err; ?></span>
+                </div>
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">

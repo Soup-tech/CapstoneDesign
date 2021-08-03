@@ -55,9 +55,10 @@
 						if (mysqli_stmt_fetch($stmt)) {
 							if (password_verify($password, $hashed_password)) {
 								
-								// First time login
-								if ($username == "admin" && $password == "admin2021") {
-									header("Location: register.php");
+								// *Potential* First time login
+								if ($username == "admin" && $password == "admin2021") { 
+									$sql = "SELECT id,username,password FROM accounts WHERE username=?";
+									header("Location: update.php");
 								} else {
 									// Password is correct
 									session_start();

@@ -54,6 +54,16 @@
             $password = trim($_POST["password"]);
         }
 
+        // Validate confirm password
+        if (empty(trim($_POST["confirm_password"]))) {
+            $confirm_password_err = "Please confirm password";
+        } else {
+            $confirm_password = trim($_POST["confirm_password"]);
+            if (empty($password_err) && ($password != $confirm_password)) {
+                $confirm_password_err = "Passwords do not match";
+            }
+        }
+
         // Validate name
         if (empty(trim($_POST["name"]))) {
             $name_err = "Please enter a name";
@@ -68,23 +78,26 @@
             $email = trim($_POST["email"]);
         }
 
-        // Check for erros before entering into database
-        if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
+        // Check for errors before entering into database
+        if (empty($name_err) && empty($email_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
 
             // Prepare sql statement
-            $sql = "INSERT INTO accounts (username, password) VALUES (?,?)";
+            $sql = "INSERT INTO accounts (name, username, email, password) VALUES (?,?,?,?)";
 
             if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Bind variables to prepare for statment
-                mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+                mysqli_stmt_bind_param($stmt, "ssss", $param_name, $param_username, $param_email, $param_password);
 
                 // Set parameters
+                $param_name = $name;
                 $param_username = $username;
+                $param_email = $email;
                 $param_password = password_hash($password, PASSWORD_DEFAULT);
 
                 // Execute statement
                 if (mysqli_stmt_execute($stmt)) {
                     header("Location: index.php");
+                    exit;
                 } else {
                     echo "Something went wrong";
                 }
@@ -138,7 +151,7 @@
                 </div>
                 <div class="form-group">
                     <label>Confirm Password</label>
-                    <input type="text" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confrim_password; ?>">
+                    <input type="text" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                     <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
                 </div>
                 <div class="form-group">

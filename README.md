@@ -9,6 +9,19 @@
   </head>
   
   <body>
+    <h2>Raspberry Pi</h2>
+    <p>The raspberry pi is the brains of the MegMag. There are two software parts that make up the MedMag:</p>
+    <ul>
+      <li>The Web Application</li>
+      <li>m3dicin3 Daemon</li>
+    </ul>
+    <p>Users will be able to login and interact with the MedMag. Interactions such as adding and removing medication, editing user information and looking at statistics. The m3dicin3 daemon reads times of dispensing from the database and performs actions to notify the user and dispense medication.</p>
+    <p>TODO</p>
+    <ul>
+      <li>Enable cronjob</li>
+      <li>Enable TLS for the web server</li>
+      <li>Configure a domain name for the MedMag</li>
+    </ul>
     <h2>Web Application</h2>
     <h3>Login/Setup</h2>
     <p>Initial setup of the Medmag has the default credentials:</p>
@@ -50,6 +63,12 @@
         <li>Calculate expected refill date based on current medication amount</li>
       </ul>
     </ul>
-    <h2>Raspberry Pi</h2>
+    <h2>m3dicin3 Daemon</h2>
+    <p>The m3dicin3 daemon is the second half of the MedMag. This daemon determines when to dispense medication.</p>
+    <p>TODO:</p>
+    <ul>
+      <li>Pull and store times from the database</li>
+      <li>Optimize sound notification</li>
+    </ul>
   </body>
 </html>

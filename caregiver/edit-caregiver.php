@@ -17,9 +17,11 @@
 <head>
     <meta charset="utf-8">
     <title>Edit Caregivers</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
     body {
-        font: 14px sans-serif;
+        font: 20px sans-serif;
     }
 
     /* .wrapper{ width: 360px; padding: 20px; margin: 100px auto;} */
@@ -34,9 +36,11 @@
     }
 
     div.caregiver-options {
-        margin-left: 50%;
+        margin-left: 65%;
+        margin-top: 10%;
         width: 300px;
-        padding: 20px; 
+        padding: 20px;
+        border: 3px black;
     }
 
     div.caregiver-info {
@@ -46,54 +50,50 @@
         padding: 10px;
     }
 
-    .form-group { 
-        border: 5px outset red; 
-        background-color: lightblue; 
-        text-align: center;
-    }
-    a { 
-        color: inherit; 
-        text-decoration: none; 
-    }
-    a:hover {
-        color: red; 
+    a {
+        color: inherit;
+        text-decoration: none;
     }
     </style>
 </head>
 
 <body>
     <div class="wrapper">
-        <section>
-            <div class="caregivers">
-                <?php 
-                    $sql = "SELECT username,email FROM accounts WHERE caregiver=1";
-                    $result = mysqli_query($conn,$sql);
-                    while ($row = mysqli_fetch_array($result)) {
-                        echo '<div id="caregiver-info" class="caregiver-info">
-                                <div class="caregiver-name">
-                                    <p>'.htmlspecialchars($row["username"]).'</p>
-                                </div>                
-                                <div class="caregiver-email">
-                                    <p>'.htmlspecialchars($row["email"]).'</p>
-                                </div>
-                              </div>';
-                    }
-                ?>
-            </div>
-        </section>
-
-        <div class="caregiver-options">
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <div class="form-group">
-                    <a href="#add-caregiver">Add Caregiver</a>
+                <div class="caregivers">
+                    <?php 
+                        $sql = "SELECT name,username,email FROM accounts WHERE caregiver=1";
+                        $result = mysqli_query($conn,$sql);
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo '<div class="caregiver-info">
+                                    <div class="form-group">
+                                        <p>Name: '.htmlspecialchars($row["name"]).'</p>
+                                    </div>                
+                                    <div class="form-group">
+                                        <p>Username: '.htmlspecialchars($row["username"]).'</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <p>Email: '.htmlspecialchars($row["email"]).'</p>
+                                    </div>
+                                    <input type="radio" class="input-group-lg">
+                                </div>';
+                        }
+                    ?>
                 </div>
-                <div class="form-group">
-                    <a href="#edit-caregiver">Edit Caregiver</a>
+    
+                <div class="caregiver-options">
+                    <div class="form-group">
+                        <a href="/caregiver/add-caregiver.php">Add Caregiver</a>
+                    </div>
+                    <div class="form-group">
+                        <a href="#edit-caregiver">Edit Caregiver</a>
+                    </div>
+                    <div class="form-group">
+                        <a href="#remove-caregiver">Remove Caregiver</a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <a href="#remove-caregiver">Remove Caregiver</a>
             </form>
-        </div>
     </div>
 </body>
+
 </html>

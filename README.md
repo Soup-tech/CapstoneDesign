@@ -32,9 +32,6 @@
     <p>After loggin in you will be presented with a registration page. Fill in your information as well as change the default password. Afterwards you will be directed to the login page to login to your MedMag.</p>
     <p>TODO:</p>
     <ul>
-      <li>Redirect to registration after initial admin:admin login</li>
-      <li>Update caregiver information after initial login</li>
-      <li>Redirect to login page after caregiver update</li>
 	<li>Second sql check in update.php</li>
     </ul>
     <h3>Caregiver</h3>

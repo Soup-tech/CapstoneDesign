@@ -56,8 +56,7 @@
 							if (password_verify($password, $hashed_password)) {
 								
 								// *Potential* First time login
-								if ($username == "admin" && $password == "admin2021") { 
-									$sql = "SELECT id,username,password FROM accounts WHERE username=?";
+								if ($username == "admin" && $password == "admin2021") {
 									header("Location: update.php");
 								} else {
 									// Password is correct

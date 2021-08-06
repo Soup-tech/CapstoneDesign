@@ -35,6 +35,7 @@
       <li>Redirect to registration after initial admin:admin login</li>
       <li>Update caregiver information after initial login</li>
       <li>Redirect to login page after caregiver update</li>
+	<li>Second sql check in update.php</li>
     </ul>
     <h3>Caregiver</h3>
     <p>The caregiver menu allows for adding, editing and removing caregivers. Caregivers act as admins of the MedMag as they can add new medication, removing current medication and look at statistics concerning the patient.</p>

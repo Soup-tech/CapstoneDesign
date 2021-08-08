@@ -87,8 +87,8 @@ def motor():
             sleep(0.001) # default is 0.001
 
 def audio():
-    intro = AudioSegment.from_mp3("intro.mp3")
-    looper = AudioSegment.from_mp3("looper.mp3") # audio file here
+    intro = AudioSegment.from_mp3("sounds/intro.mp3")
+    looper = AudioSegment.from_mp3("sounds/looper.mp3") # audio file here
     play(intro)
     while (not button.is_pressed):
         looper = looper + 1

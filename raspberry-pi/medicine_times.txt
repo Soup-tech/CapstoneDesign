@@ -1,0 +1,4 @@
+('sugar', 2, datetime.timedelta(seconds=75600), 1)
+('painkillers', 2, datetime.timedelta(seconds=75600), 1)
+('anti-depressant', 2, datetime.timedelta(seconds=26416, microseconds=188368), 1)
+('adderral', 1, datetime.timedelta(seconds=5784, microseconds=235852), 1)

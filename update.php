@@ -2,17 +2,17 @@
     include 'includes/header.php';
     include_once 'includes/dbhandler.php';
     
-    $name = $name_err = "";
-    $username = $username_err = "";
-    $email = $email_err = "";
-    $password = $password_err = "";
-    $confirm_password = $confirm_password_err = "";
-
     // Check if the user is logged in, if not redirect to the login page
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
         header("Location: index.php");
         exit;
     }
+
+    $name = $name_err = "";
+    $username = $username_err = "";
+    $email = $email_err = "";
+    $password = $password_err = "";
+    $confirm_password = $confirm_password_err = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

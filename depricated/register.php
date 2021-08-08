@@ -83,7 +83,7 @@
 
             // Prepare sql statement
             $sql = "INSERT INTO accounts (name, username, email, password) VALUES (?,?,?,?)";
-
+            
             if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Bind variables to prepare for statment
                 mysqli_stmt_bind_param($stmt, "ssss", $param_name, $param_username, $param_email, $param_password);

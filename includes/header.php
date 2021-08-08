@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Login</title>
 		<link rel="stylesheet" type="text/css" href="/css/header.css" />
 	</head>
 

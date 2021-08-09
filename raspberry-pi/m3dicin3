@@ -105,6 +105,8 @@ def audio():
         
     sys.exit(0)
 
+# def restart():
+
 # ======= Main =======
 argv = sys.argv
 

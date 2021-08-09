@@ -1,10 +1,11 @@
-@reboot path/to/medicine >/dev/null 2>&1 &
-@reboot path/to/medicine >/dev/null 2>&1 &
+@reboot path/to/m3dicin3 >/dev/null 2>&1 &
 
 When you are ready to make medicine a permenant process:
 $ crontab -e
 
-Insert line 1 at the bottom. Save file and exit.
+Insert line 1 at the bottom. Save file and exit. Use:
+$ crontab -l 
+To verify your cronjob has been established
 
 Note:
 	In the final deployment, move the raspberry-pi directory somewhere outside the webserver (such as /home/pi).

@@ -67,6 +67,7 @@
     <ul>
       <li>Pull and store times from the database</li>
       <li>Optimize sound notification</li>
+      <li>Create reset button</li>
     </ul>
   </body>
 </html>

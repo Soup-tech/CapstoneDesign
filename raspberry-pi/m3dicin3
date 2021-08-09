@@ -15,9 +15,11 @@ from gpiozero import Button, PWMLED
 from signal import pause
 from pydub import AudioSegment
 from pydub.playback import play
+from datetime import datetime
 
 # ======= Variables =======
 button = Button(2)
+dispense = 0
 
 # ======= Function =======
 def mariadb_connection():
@@ -65,8 +67,12 @@ def breath():
             toggle = 1
 
         sleep(0.5) # Change to breath faster/slower
+    sys.exit(0)
 
 def motor():
+    """
+    Stepper motor controller
+    """
     control_pins = [12,16,20,21] # GPIO pins 
     seq = [[1,0,0,0],
            [1,1,0,0],
@@ -86,10 +92,13 @@ def motor():
                 GPIO.output(control_pins[pin], seq[halfstep][pin])
             sleep(0.001) # default is 0.001
 
+    sys.exit(0)
+
 def audio():
-    intro = AudioSegment.from_mp3("sounds/intro.mp3")
-    looper = AudioSegment.from_mp3("sounds/looper.mp3") # audio file here
-    play(intro)
+    """
+    Audio player
+    """
+    looper = AudioSegment.from_mp3("sounds/screaming.mp3") # audio file here
     while (not button.is_pressed):
         looper = looper + 1
         play(looper)
@@ -97,18 +106,55 @@ def audio():
     sys.exit(0)
 
 # ======= Main =======
+argv = sys.argv
+
+# Debugging
+try:
+    if (argv[1] == 'led'):
+        breath()
+    elif (argv[1] == 'motor'):
+        motor()
+    elif (argv[1] == 'audio'):
+        audio()
+except:
+    pass
 
 cur = mariadb_connection()
+while True:
+    try:
+        cur.execute("SELECT * FROM medicine")
+    except mariadb.Error as e:
+        print(f"Error pulling information from MariaDB: {e}")
 
-b = os.fork()
-if (b == 0):
-    breath()
+    # Pull current time to the nearest minute
+    n = datetime.now()
+    current_time = n.strftime("%H:%M")
+    
+    # Pull information from database
+    for row in cur:
+        med_time = ":".join(str(row[2]).split()[1].split('.')[0].split(':')[0:2])
+        
+        if (current_time == med_time):
+            dispense = 1
+            break
+    
+    # Time to take medication begin notification actions
+    if (dispense == 1):
+        b = os.fork()
+        if (b == 0):
+            breath()
+        a = os.fork()
+        if (a == 0):
+            audio()
+        
+        # Wait for user interaction
+        while (not button.is_pressed):
+            pass
+        
+        os.kill(a,signal.SIGKILL)
+        motor()
+        dispense = 0
+        sleep(60)
 
-a = os.fork()
-if (a == 0):
-    audio()
 
-while (not button.is_pressed):
-    pass
-os.kill(a,signal.SIGKILL)
-motor()
+

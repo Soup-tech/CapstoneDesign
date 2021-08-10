@@ -105,8 +105,6 @@ def audio():
         
     sys.exit(0)
 
-# def restart():
-
 # ======= Main =======
 argv = sys.argv
 
@@ -142,18 +140,19 @@ while True:
     
     # Time to take medication begin notification actions
     if (dispense == 1):
-        b = os.fork()
-        if (b == 0):
-            breath()
+        print("Time to Dispense!")
         a = os.fork()
         if (a == 0):
             audio()
+
+        b = os.fork()
+        if (b == 0):
+            breath()
         
         # Wait for user interaction
         while (not button.is_pressed):
             pass
-        
-        os.kill(a,signal.SIGKILL)
+        os.kill(a,signal.SIGSTOP)
         motor()
         dispense = 0
         sleep(60)

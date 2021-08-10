@@ -26,7 +26,7 @@
                 <a href="#medication-and-scheduling">Medication and Scheduling Menu</a>
             </div>
             <div class="form-group">
-                <a href="edit-caregiver.php">Edit Caregivers</a>
+                <a href="caregiver-select.php">View Caregivers</a>
             </div>
             <div class="form-group">
                 <a href="#edit-users">Edit Users</a>

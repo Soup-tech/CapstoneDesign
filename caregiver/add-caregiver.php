@@ -88,16 +88,17 @@
         
         // Check for errors
         if (empty($name_err) && empty($email_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
-           $sql = "INSERT INTO accounts (name, username, email, password) VALUES (?, ?, ?, ?)";
+           $sql = "INSERT INTO accounts (name, username, email, password, caregiver) VALUES (?, ?, ?, ?, ?)";
 
             if ($stmt = mysqli_prepare($conn,$sql)) {
                 // Bind 
-                mysqli_stmt_bind_param($stmt,"ssss",$param_name,$param_username,$param_email,$param_password);
+                mysqli_stmt_bind_param($stmt,"ssss",$param_name,$param_username,$param_email,$param_password,$param_caregiver);
                 
                 $param_name = $name;
                 $param_username = $username;
                 $param_email = $email;
                 $param_password = password_hash($password, PASSWORD_DEFAULT);
+                $param_caregiver = 1;
                 
                 if (mysqli_stmt_execute($stmt)) {
                     echo "Works!";

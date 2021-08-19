@@ -8,6 +8,7 @@ import mariadb
 import sys
 import os
 import signal
+import subprocess
 import numpy as np
 import RPi.GPIO as GPIO
 from time import sleep
@@ -100,24 +101,12 @@ def audio():
     """
     looper = AudioSegment.from_mp3("sounds/screaming.mp3") # audio file here
     while (not button.is_pressed):
-        looper = looper + 1
-        play(looper)
-        
-    sys.exit(0)
-
+        try:
+            looper = looper + 1
+            play(looper)
+        except KeyboardInterrupt:
+            sys.exit(0)   
 # ======= Main =======
-argv = sys.argv
-
-# Debugging
-try:
-    if (argv[1] == 'led'):
-        breath()
-    elif (argv[1] == 'motor'):
-        motor()
-    elif (argv[1] == 'audio'):
-        audio()
-except:
-    pass
 
 cur = mariadb_connection()
 while True:
@@ -125,7 +114,7 @@ while True:
         cur.execute("SELECT * FROM medicine")
     except mariadb.Error as e:
         print(f"Error pulling information from MariaDB: {e}")
-
+    
     # Pull current time to the nearest minute
     n = datetime.now()
     current_time = n.strftime("%H:%M")
@@ -141,21 +130,25 @@ while True:
     # Time to take medication begin notification actions
     if (dispense == 1):
         print("Time to Dispense!")
-        a = os.fork()
-        if (a == 0):
-            audio()
-
         b = os.fork()
         if (b == 0):
             breath()
+
+        a = os.fork()
+        if (a == 0):
+            audio()
         
         # Wait for user interaction
         while (not button.is_pressed):
             pass
-        os.kill(a,signal.SIGSTOP)
+
+        # Killing audio
+        os.kill(a,signal.SIGINT)
+        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
+        pid = ffplay.stdout.read().decode('utf-8')
+        pid = pid.split('\n')
+        os.system('kill ' + pid[0])
+        
         motor()
         dispense = 0
         sleep(60)
-
-
-

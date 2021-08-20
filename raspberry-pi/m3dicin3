@@ -92,8 +92,9 @@ def motor():
             for pin in range(4):
                 GPIO.output(control_pins[pin], seq[halfstep][pin])
             sleep(0.001) # default is 0.001
-
-    sys.exit(0)
+    
+    return
+    # sys.exit(0) I left this in here to remember the 2 months of debugging I endured because of my dumbass.
 
 def audio():
     """
@@ -101,15 +102,15 @@ def audio():
     """
     looper = AudioSegment.from_mp3("sounds/screaming.mp3") # audio file here
     while (not button.is_pressed):
-        try:
-            looper = looper + 1
-            play(looper)
-        except KeyboardInterrupt:
-            sys.exit(0)   
-# ======= Main =======
+        print("In Audio Player")
+        looper = looper + 1
+        play(looper)
+    
+    sys.exit(0)
 
-cur = mariadb_connection()
+# ======= Main =======
 while True:
+    cur = mariadb_connection()
     try:
         cur.execute("SELECT * FROM medicine")
     except mariadb.Error as e:
@@ -127,6 +128,8 @@ while True:
             dispense = 1
             break
     
+    cur.close()
+    sleep(2)
     # Time to take medication begin notification actions
     if (dispense == 1):
         print("Time to Dispense!")
@@ -137,18 +140,19 @@ while True:
         a = os.fork()
         if (a == 0):
             audio()
-        
+
         # Wait for user interaction
         while (not button.is_pressed):
             pass
 
         # Killing audio
-        os.kill(a,signal.SIGINT)
         ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
         pid = ffplay.stdout.read().decode('utf-8')
         pid = pid.split('\n')
         os.system('kill ' + pid[0])
         
         motor()
+        os.kill(b,signal.SIGKILL)
+        os.kill(a,signal.SIGKILL)
         dispense = 0
         sleep(60)

@@ -30,7 +30,7 @@ class Medmag:
                 for i in np.arange(0,1,0.05):
                     self.led.value = i
                     if (self.button.is_pressed):
-                        return 
+                        sys.exit(0) 
                     sleep(0.05)
                 self.led.value = 1
                 toggle = 0
@@ -38,13 +38,13 @@ class Medmag:
                 for d in np.arange(1,0,-0.05):
                     self.led.value = d
                     if (self.button.is_pressed):
-                        return 
+                        sys.exit(0) 
                     sleep(0.05)
                 self.led.value = 0
                 toggle = 1
 
             sleep(0.5) # Change to breath faster/slower
-        return
+        sys.exit(0)
 
     def motor(self):
         """
@@ -59,6 +59,8 @@ class Medmag:
                [0,0,1,1],
                [0,0,0,1],
                [1,0,0,1]]
+        
+        # Set pins
         for pin in control_pins:
             GPIO.setup(pin,GPIO.OUT)
             GPIO.output(pin,0)
@@ -68,8 +70,13 @@ class Medmag:
                 for pin in range(4):
                     GPIO.output(control_pins[pin],seq[halfstep][pin])
                 sleep(0.001) # Default is 0.001
+    
+        # Reset pins
+        for pin in control_pins:
+            GPIO.setup(pin,GPIO.OUT)
+            GPIO.output(pin,0)
 
-        return
+        sys.exit(0)
 
     def audio(self):
         """
@@ -94,4 +101,7 @@ class Medmag:
         pid = pid.split('\n')
         os.system('kill ' + pid[0])
         
-        return
+        sys.exit(0) 
+
+    def button_control(self):
+        return self.button.is_pressed

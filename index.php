@@ -6,11 +6,12 @@
 	session_start();
 
 	// Check if user is already logged in
+	/*
 	if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == True) {
 		header("location: home.php");
 		exit;
 	}
-
+	*/
 	$username = "";
 	$password = "";
 	$username_err = $password_err = $login_err = "";

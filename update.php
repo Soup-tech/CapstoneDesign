@@ -1,12 +1,15 @@
-<?php
+
+<?php 
     include 'includes/header.php';
     include_once 'includes/dbhandler.php';
-    
+
+    /*
     // Check if the user is logged in, if not redirect to the login page
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
         header("Location: index.php");
         exit;
     }
+    */
 
     $name = $name_err = "";
     $username = $username_err = "";
@@ -93,6 +96,7 @@
     }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -63,11 +63,6 @@
     }
     </style>
 
-    <script>
-        function redirect() {
-            window.location.replace("/caregiver/caregiver-edit.php");
-        }
-    </script>
 
 </head>
 
@@ -78,7 +73,7 @@
                 $sql = "SELECT name,username,email FROM accounts WHERE caregiver=1";
                 $result = mysqli_query($conn,$sql);
                 while ($row = mysqli_fetch_array($result)) {
-                    echo '<div class="caregiver-info" ondblclick="redirect()">
+                    echo '<div class="caregiver-info" ondblclick="redirect('.htmlspecialchars($row["name"]).','.htmlspecialchars($row["username"]).','.htmlspecialchars($row["name"]).')">
                             <div class="form-group">
                                 <p>Name: '.htmlspecialchars($row["name"]).'</p>
                             </div>                
@@ -102,7 +97,7 @@
     </div>
 
     <div class="back">
-        <a href="/caregiver/caregiver-menu.php">Back</a>
+        <a href="/caregiver/caregiver-information.php">Back</a>
     </div>
 
 

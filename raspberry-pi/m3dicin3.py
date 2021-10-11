@@ -83,18 +83,21 @@ def motor():
            [0,0,1,1],
            [0,0,0,1],
            [1,0,0,1]]
+
+    print("\t[+] Setting up pins")
     for pin in control_pins:
         GPIO.setup(pin,GPIO.OUT)
         GPIO.output(pin,0)
 
+    print("\t[+] Stepping")
     for i in range(512):
         for halfstep in range(8):
             for pin in range(4):
                 GPIO.output(control_pins[pin], seq[halfstep][pin])
             sleep(0.001) # default is 0.001
     
-    return
-    # sys.exit(0) I left this in here to remember the 2 months of debugging I endured because of my dumbass.
+    # return
+    sys.exit(0) # I left this in here to remember the 2 months of debugging I endured because of my dumbass.
 
 def audio():
     """
@@ -102,7 +105,6 @@ def audio():
     """
     looper = AudioSegment.from_mp3("sounds/screaming.mp3") # audio file here
     while (not button.is_pressed):
-        print("In Audio Player")
         looper = looper + 1
         play(looper)
     
@@ -110,15 +112,9 @@ def audio():
 
 # ======= Main =======
 
-
-while (True):
-    motor()
-
-
-"""
-
 while True:
     cur = mariadb_connection()
+    print("[+] Made mariadb connection")
     try:
         cur.execute("SELECT * FROM medicine")
     except mariadb.Error as e:
@@ -127,12 +123,14 @@ while True:
     # Pull current time to the nearest minute
     n = datetime.now()
     current_time = n.strftime("%H:%M")
+    print("[+] Got Current Time")
     
     # Pull information from database
     for row in cur:
         med_time = ":".join(str(row[2]).split()[1].split('.')[0].split(':')[0:2])
         
         if (current_time == med_time):
+            print("\t[+] We have a match!")
             dispense = 1
             break
     
@@ -140,28 +138,48 @@ while True:
     sleep(2)
     # Time to take medication begin notification actions
     if (dispense == 1):
-        print("Time to Dispense!")
+        print("[+] Time to Dispense!")
         b = os.fork()
         if (b == 0):
+            print("[+] Breathing")
             breath()
 
         a = os.fork()
         if (a == 0):
+            print("[+] Audio")
             audio()
 
         # Wait for user interaction
+        print("[+] Waiting for button push")
         while (not button.is_pressed):
             pass
 
+        print("[+] Button has been pushed")
+        
         # Killing audio
-        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
+        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
         pid = ffplay.stdout.read().decode('utf-8')
         pid = pid.split('\n')
         os.system('kill ' + pid[0])
         
-        motor()
+        m = os.fork()
+        if (m == 0):
+            print("[+] Motor")
+            motor()
+       
+        sleep(5)
         os.kill(b,signal.SIGKILL)
         os.kill(a,signal.SIGKILL)
+        os.kill(m,signal.SIGKILL)
+
+        # Waiting for child pocesses to clean up
+        os.wait()
+        os.wait()
+        os.wait()
+
         dispense = 0
+        print("[+] Finished Dispensing!")
         sleep(60)
-    """
+
+
+

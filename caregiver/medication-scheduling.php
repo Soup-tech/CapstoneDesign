@@ -20,18 +20,27 @@
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
             body {font: 20px sans-serif;
-                background-image: url('includes/backr.jpg');    /* Testing adding a background image for the website */
+                background-image: url('../includes/backr.jpg');    /* Testing adding a background image for the website */
             }
             .wrapper { width: 300px; padding: 20px; margin: 100px auto; }
             /*.form-group { border: 5px outset red; background-color: lightblue; text-align: center;}*/
             a { color: inherit; text-decoration: none; }
             /*a:hover {color: red; } */ 
+            .card{
+              width: 500;
+              margin: 0 auto; /* Added */
+              float: none; /* Added */
+              padding: none;
+              background: transparent;
+              
+            }
+          
         </style>
  </head>
-// First row of cards 
-<div class="card-group">
-  <div class="card">
-    <div class="card-body">
+
+  <div class="card" >
+  <div class="card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-body" >
       <form id="Dispatch-Time" method="POST">
               <label for="">Medication Name</label>
               <input type="text" name="name" class="form-control">
@@ -59,105 +68,6 @@
               <button type="submit" name="submit" class="btn btn-primary">Submit</button>
           </form>
     </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-      
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-      
-    </div>
-  </div>
-</div>
-//Second Row of Cards
-<div class="card-group">
-  <div class="card">
-    <div class="card-body">
-      
-      
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-      
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-      
-    </div>
-  </div>
-</div>
-//Third Row of Cards
-<div class="card-group">
-  <div class="card">
-    <div class="card-body">
-     
-      
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-      
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-     
-    </div>
-  </div>
-</div>
-//Fourth Row of cards
-<div class="card-group">
-  <div class="card">
-    <div class="card-body">
-      
-
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      
-
-    </div>
-  </div>
-</div>
-
-<div class="card-group">
-  <div class="card">
-    <div class="card-body">
-     
-
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-     
-
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-     
-
-    </div>
-  </div>
-</div>
-
-
-        
+ 
 
 </html>

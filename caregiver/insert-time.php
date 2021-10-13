@@ -1,26 +1,64 @@
 <?php
     require '../includes/header.php';
+    require_once '../includes/dbhandler.php';
     session_start();
 
+    $name_err = $amount_err = "";
+
     if (isset($_POST['submit'])) {
-        $name = $_POST['name'];
-        $amount = $_POST['amount'];
+        // Get POST request
+        $amount = (int) $_POST['amount'];
         $day = $_POST['DOM'];
         $hour = $_POST['Hour'];
         $minute = $_POST['Minute'];
 
         // Creating correct format for datetime
-        $year = (string) date("Y");
-        $month = (string) date("m");
-        $day = (string) $day;
-        $hour = (string) $hour;
-        $minute = (string) $minute;
+        $year = date("Y");
+        $month = date("m");
 
         // Convert named days to numerical dates
-        
-        $datetime = $year + '-' + $month + '-' + $day + ' ' + $hour + ': ' + $minute + ': 00.00';
-        echo $datetime;
-        
+        $datetime = $year.'/'.$month.'/'.$day.' '.$hour.':'.$minute.':00.00';
+
+        //// Error Handling
+        // Name
+        if (empty(trim($_POST['name']))) {
+            $name_err = "Please enter a name";
+        } else if (strlen(trim($_POST['name'])) > 100) {
+            $name_err = "Name of Medication is too large";
+        } else {
+            $name = $_POST['name'];
+        }
+
+        // Amount
+        if (empty(trim($_POST['amount']))) {
+            $amount_err = "Please enter an amounnt";
+        } else if ((int) $_POST['amount'] > 10) {
+            $amount_err = "Too much medication";
+        }
+
+       
+        // Prepare sql
+        $sql = "INSERT INTO medicine (NAME,AMOUNT,TIME) VALUES ('$name','$amount','$datetime')";
+        // echo $sql; // DEBUGGING
+
+        if ($stmt = mysqli_prepare($conn,$sql)) {
+            
+            // Bind the variables
+			mysqli_stmt_bind_param($stmt, "sss", $param_name,$param_amount,$param_datetime);
+
+            // Set the variables
+            $param_name = $name;
+            $param_amount = $amount;
+            $param_datetime = $datetime;
+
+            // Execute
+            if (mysqli_stmt_execute($stmt)) {
+                echo "Success!";
+            }
+
+        } else {
+            echo "Something went wrong";
+        }
     }
 
 ?>

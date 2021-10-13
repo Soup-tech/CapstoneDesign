@@ -33,7 +33,7 @@
             $username_err = "Username can only contain letters, numbers, and underscore";
         } else {
             // Prepare sql
-            $sql = "SELECT id FROM accounts WHERE username=?";
+            $sql = "SELECT username FROM accounts WHERE username=?";
 
             if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Bind variables for sql statement

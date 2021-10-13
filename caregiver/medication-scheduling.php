@@ -32,8 +32,32 @@
 <div class="card-group">
   <div class="card">
     <div class="card-body">
-      //PLACE CARD CONTENT IN THESE SPACES
-      
+      <form id="Dispatch-Time" method="POST">
+              <label for="">Medication Name</label>
+              <input type="text" name="name" class="form-control">
+              <label for="">Amount</label>
+              <input type="text" name="amount" class="form-control">
+              <select name="DOM">
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+              </select>
+              <select name="Hour">
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+              </select>
+              <select name="Minute">
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+              </select>
+              <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+          </form>
     </div>
   </div>
   <div class="card">

@@ -1,18 +1,67 @@
 <?php
     require '../includes/header.php';
     require_once '../includes/dbhandler.php';
-
-    // Start session
     session_start();
 
-    /*
-    // Check if user is logged in
-    if (!isset($_SESSION['loggedin']) && $_SESSION['loggedin'] !== True) {
-        header("location: /index.php");
-        exit;
+    $name_err = $amount_err = "";
+
+    if (isset($_POST['submit'])) {
+        // Get POST request
+        $amount = (int) $_POST['amount'];
+        $day = $_POST['DOM'];
+        $hour = $_POST['Hour'];
+        $minute = $_POST['Minute'];
+
+        // Creating correct format for datetime
+        $year = date("Y");
+        $month = date("m");
+
+        // Convert named days to numerical dates
+        $datetime = $year.'/'.$month.'/'.$day.' '.$hour.':'.$minute.':00.00';
+
+        //// Error Handling
+        // Name
+        if (empty(trim($_POST['name']))) {
+            $name_err = "Please enter a name";
+        } else if (strlen(trim($_POST['name'])) > 100) {
+            $name_err = "Name of Medication is too large";
+        } else {
+            $name = $_POST['name'];
+        }
+
+        // Amount
+        if (empty(trim($_POST['amount']))) {
+            $amount_err = "Please enter an amounnt";
+        } else if ((int) $_POST['amount'] > 10) {
+            $amount_err = "Too much medication";
+        }
+
+       
+        // Prepare sql
+        $sql = "INSERT INTO medicine (NAME,AMOUNT,TIME) VALUES ('$name','$amount','$datetime')";
+        // echo $sql; // DEBUGGING
+
+        if ($stmt = mysqli_prepare($conn,$sql)) {
+            
+            // Bind the variables
+			mysqli_stmt_bind_param($stmt, "sss", $param_name,$param_amount,$param_datetime);
+
+            // Set the variables
+            $param_name = $name;
+            $param_amount = $amount;
+            $param_datetime = $datetime;
+
+            // Execute
+            if (mysqli_stmt_execute($stmt)) {
+                echo "Success!";
+            }
+
+        } else {
+            echo "Something went wrong";
+        }
     }
-    */
 ?>
+
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <html lang="en">

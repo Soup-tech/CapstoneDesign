@@ -25,7 +25,7 @@
     <body>
         <div class="wrapper">
             <div class="form-group">
-                <a href="#medication-and-scheduling">Medication and Scheduling Menu</a>
+                <a href="medication-scheduling.php">Medication and Scheduling Menu</a>
             </div>
             <div class="form-group">
                 <a href="caregiver-select.php">View Caregivers</a>

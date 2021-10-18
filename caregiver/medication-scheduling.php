@@ -76,7 +76,7 @@
             a { color: inherit; text-decoration: none; }
             /*a:hover {color: red; } */ 
             .card{
-              width: 500;
+              width: 300;
               margin: 0 auto; /* Added */
               float: none; /* Added */
               padding: none;
@@ -88,9 +88,9 @@
  </head>
 
   <div class="card" >
-  <div class="card border-dark mb-3" style="max-width: 18rem;">
-    <div class="card-body" >
-      <form id="Dispatch-Time" method="POST">
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body" >
+            <form id="Dispatch-Time" method="POST">
               <label for="">Medication Name</label>
               <input type="text" name="name" class="form-control">
               <label for="">Amount</label>
@@ -115,8 +115,90 @@
                   <option value="03">03</option>
               </select>
               <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-          </form>
+            </form>
+        </div>
     </div>
+ </div>
+
+ <div class="container">   
+        <div class="row">
+            <div class="col-md">
+                <div class="card" >
+                    Day 1
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card ">
+                    Day 2
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 3
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 4
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 5
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 6
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 7
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md">
+                <div class="card">
+                    Day 8
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 9 
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 10
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 11
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 12
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 13
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    Day 14
+                </div>
+            </div>
+        </div>
+        </div>        
+
+
  
 
 </html>

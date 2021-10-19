@@ -44,7 +44,7 @@
         if ($stmt = mysqli_prepare($conn,$sql)) {
             
             // Bind the variables
-			mysqli_stmt_bind_param($stmt, "sss", $param_name,$param_amount,$param_datetime);
+			mysqli_stmt_bind_param($stmt, "ss", $param_name,$param_amount,$param_datetime);
 
             // Set the variables
             $param_name = $name;

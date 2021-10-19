@@ -5,19 +5,22 @@
 
     $name_err = $amount_err = "";
 
+    // Submission 
     if (isset($_POST['submit'])) {
+        // ####################################################
+        // ######### User input medication routine ############
+        // ####################################################
         // Get POST request
-        $amount = (int) $_POST['amount'];
-        $day = $_POST['DOM'];
+        $day_count = $_POST['Day-Count'];
+        $part = $_POST['Day-Count-Part'];
         $hour = $_POST['Hour'];
         $minute = $_POST['Minute'];
 
-        // Creating correct format for datetime
-        $year = date("Y");
-        $month = date("m");
-
         // Convert named days to numerical dates
-        $datetime = $year.'/'.$month.'/'.$day.' '.$hour.':'.$minute.':00.00';
+        $datetime = $hour.':'.$minute;
+
+        // Format for which day-part
+        $full_day_count = $day_count.'-'.$part;
 
         //// Error Handling
         // Name
@@ -31,25 +34,27 @@
 
         // Amount
         if (empty(trim($_POST['amount']))) {
-            $amount_err = "Please enter an amounnt";
+            $amount_err = "Please enter an amount";
         } else if ((int) $_POST['amount'] > 10) {
             $amount_err = "Too much medication";
+        } else {
+            $amount = $_POST['amount'];
         }
 
-       
-        // Prepare sql
-        $sql = "INSERT INTO medicine (NAME,AMOUNT,TIME) VALUES ('$name','$amount','$datetime')";
+        // Prepare sql statement
+        $sql = "UPDATE `medicine` SET `NAME`='".$name."',`AMOUNT`=".$amount.",`TIME`='".$datetime."' WHERE `DAY-COUNT`='".$full_day_count."'";
         // echo $sql; // DEBUGGING
 
         if ($stmt = mysqli_prepare($conn,$sql)) {
             
             // Bind the variables
-			mysqli_stmt_bind_param($stmt, "sss", $param_name,$param_amount,$param_datetime);
+			mysqli_stmt_bind_param($stmt, "ssss", $param_name,$param_amount,$param_datetime,$param_full_day_count);
 
             // Set the variables
             $param_name = $name;
             $param_amount = $amount;
             $param_datetime = $datetime;
+            $param_full_day_count = $full_day_count;
 
             // Execute
             if (mysqli_stmt_execute($stmt)) {
@@ -59,7 +64,25 @@
         } else {
             echo "Something went wrong";
         }
+        
     }
+
+    // ####################################################
+    // ############ Displaying table information ##########
+    // ####################################################
+    // DEBUGGING
+    /*
+    $display_sql = "SELECT * FROM medicine";
+    $results = mysqli_query($conn, $display_sql);
+    while ($row = mysqli_fetch_assoc($results)) {
+        echo '
+            <p>Name:'.$row['NAME'].'</p>
+            <p>Amount: '.$row['AMOUNT'].'</p>
+            <p>Day-Count: '.$row['DAY-COUNT'].'</p>
+            <br>
+        ';
+    }
+    */    
 ?>
 
 <!DOCTYPE html>
@@ -95,24 +118,113 @@
               <input type="text" name="name" class="form-control">
               <label for="">Amount</label>
               <input type="text" name="amount" class="form-control">
-              <select name="DOM">
-                  <option value="01">01</option>
-                  <option value="02">02</option>
-                  <option value="03">03</option>
-                  <option value="04">04</option>
-                  <option value="05">05</option>
+              <select name="Day-Count">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+              </select>
+              <select name="Day-Count-Part">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
               </select>
               <select name="Hour">
                   <option value="00">00</option>
                   <option value="01">01</option>
                   <option value="02">02</option>
                   <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
               </select>
               <select name="Minute">
                   <option value="00">00</option>
                   <option value="01">01</option>
                   <option value="02">02</option>
                   <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                  <option value="32">32</option>
+                  <option value="33">33</option>
+                  <option value="34">34</option>
+                  <option value="35">35</option>
+                  <option value="36">36</option>
+                  <option value="37">37</option>
+                  <option value="38">38</option>
+                  <option value="39">39</option>
+                  <option value="40">40</option>
+                  <option value="41">41</option>
+                  <option value="42">42</option>
+                  <option value="43">43</option>
+                  <option value="44">44</option>
+                  <option value="45">45</option>
+                  <option value="46">46</option>
+                  <option value="47">47</option>
+                  <option value="48">48</option>
+                  <option value="49">49</option>
+                  <option value="50">50</option>
+                  <option value="51">51</option>
+                  <option value="52">52</option>
+                  <option value="53">53</option>
+                  <option value="54">54</option>
+                  <option value="55">55</option>
+                  <option value="56">56</option>
+                  <option value="57">57</option>
+                  <option value="58">58</option>
+                  <option value="59">59</option>
               </select>
               <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -121,82 +233,58 @@
  </div>
 
  <div class="container">   
-        <div class="row">
-            <div class="col-md">
-                <div class="card" >
-                    Day 1
+    <div class="row">
+        <?php
+            $display_sql = "SELECT * FROM medicine";
+            $results = mysqli_query($conn, $display_sql);
+            
+            for ($i=1; $i < 8; $i++) {
+                $row = mysqli_fetch_assoc($results);
+                $next_row = mysqli_fetch_assoc($results);
+                echo '
+                <div class="col-md">
+                    <div class="card" >
+                        <p>Day '.$i.'</p>
+                        <br>
+                        <p>Name: '.$row['NAME'].'</p>
+                        <p>Amount: '.$row['AMOUNT'].'</p>
+                        <p>Time: '.$row['TIME'].'</p>
+                        <br>
+                        <p>Name: '.$next_row['NAME'].'</p>
+                        <p>Amount: '.$next_row['AMOUNT'].'</p>
+                        <p>Time: '.$next_row['TIME'].'</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="card ">
-                    Day 2
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 3
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 4
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 5
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 6
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 7
-                </div>
-            </div>
-        </div>
+                ';
+            }
+        ?>
+    </div>
 
-        <div class="row">
-            <div class="col-md">
-                <div class="card">
-                    Day 8
+    <div class="row">
+        <?php
+
+            for ($i=8; $i < 15; $i++) {
+                $row = mysqli_fetch_assoc($results);
+                $next_row = mysqli_fetch_assoc($results);
+                echo '
+                <div class="col-md">
+                    <div class="card" >
+                        <p>Day '.$i.'</p>
+                        <p>Name: '.$row['NAME'].'</p>
+                        <p>Amount: '.$row['AMOUNT'].'</p>
+                        <p>Time: '.$row['TIME'].'</p>
+                        <br>
+                        <p>Name: '.$next_row['NAME'].'</p>
+                        <p>Amount: '.$next_row['AMOUNT'].'</p>
+                        <p>Time: '.$next_row['TIME'].'</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 9 
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 10
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 11
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 12
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 13
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="card">
-                    Day 14
-                </div>
-            </div>
+                ';
+            }
+        ?>
         </div>
-        </div>        
+    </div>
+</div>        
 
 
  

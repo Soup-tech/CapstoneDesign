@@ -2,7 +2,7 @@
 
 $servername = "localhost";
 $dbuname = "root";
-$dbpass = "";
+$dbpass = "G0dH@d3s";
 $dbname = "capstone";
 
 $conn = mysqli_connect($servername,$dbuname,$dbpass,$dbname);

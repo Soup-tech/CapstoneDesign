@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 13, 2021 at 05:56 PM
+-- Generation Time: Oct 21, 2021 at 10:35 PM
 -- Server version: 10.1.48-MariaDB-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.8
 
@@ -49,7 +49,8 @@ INSERT INTO `accounts` (`name`, `username`, `email`, `password`, `caregiver`) VA
 
 CREATE TABLE `medicine` (
   `NAME` varchar(32) DEFAULT NULL,
-  `AMOUNT` int(10) DEFAULT NULL,
+  `DAY-COUNT` varchar(4) DEFAULT NULL,
+  `AMOUNT` varchar(2) DEFAULT NULL,
   `TIME` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -57,11 +58,35 @@ CREATE TABLE `medicine` (
 -- Dumping data for table `medicine`
 --
 
-INSERT INTO `medicine` (`NAME`, `AMOUNT`, `TIME`) VALUES
-('drugs', 1, '2021/10/01 00:00:00.00'),
-('more_drugs', 10, '2021/10/03 02:01:00.00'),
-('drug', 3, '2021/10/01 00:00:00.00'),
-('all the drugs', 2, '2021/10/03 03:00:00.00');
+INSERT INTO `medicine` (`NAME`, `DAY-COUNT`, `AMOUNT`, `TIME`) VALUES
+('', '1-1', '', ''),
+('', '1-2', '', ''),
+(NULL, '2-1', NULL, NULL),
+(NULL, '2-2', NULL, NULL),
+('', '3-1', '', ''),
+('', '3-2', '', ''),
+(NULL, '4-1', NULL, NULL),
+(NULL, '4-2', NULL, NULL),
+('skittles', '5-1', '2', '05:30'),
+(NULL, '5-2', NULL, NULL),
+(NULL, '6-1', NULL, NULL),
+(NULL, '6-2', NULL, NULL),
+(NULL, '7-1', NULL, NULL),
+(NULL, '7-2', NULL, NULL),
+(NULL, '8-1', NULL, NULL),
+(NULL, '8-2', NULL, NULL),
+(NULL, '9-1', NULL, NULL),
+('', '9-2', '', ''),
+(NULL, '10-1', NULL, NULL),
+(NULL, '10-2', NULL, NULL),
+(NULL, '11-1', NULL, NULL),
+('', '11-2', '', ''),
+(NULL, '12-1', NULL, NULL),
+(NULL, '12-2', NULL, NULL),
+(NULL, '13-1', NULL, NULL),
+(NULL, '13-2', NULL, NULL),
+(NULL, '14-1', NULL, NULL),
+(NULL, '14-2', NULL, NULL);
 
 --
 -- Indexes for dumped tables

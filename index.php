@@ -35,24 +35,24 @@
 		// Check if creds are valid
 		if (empty($username_err) && empty($password_err)) {
 			// Prepare sql query
-			$sql = "SELECT id,username,password FROM accounts WHERE username=?";
-
+			$sql = "SELECT username,password FROM accounts WHERE username=?";
+			
 			if ($stmt = mysqli_prepare($conn,$sql)) {
 				// Bind the variables
 				mysqli_stmt_bind_param($stmt, "s", $param_username);
 
 				// Set parameters
 				$param_username = $username;
-
+				
 				// Execute
 				if (mysqli_stmt_execute($stmt)) {
 					// Store results
 					mysqli_stmt_store_result($stmt);
-
+					
 					// Check if username exists
 					if (mysqli_stmt_num_rows($stmt) == 1) {
-						mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
-
+						mysqli_stmt_bind_result($stmt, $username, $hashed_password);
+						
 						if (mysqli_stmt_fetch($stmt)) {
 							if (password_verify($password, $hashed_password)) {
 								
@@ -62,9 +62,8 @@
 								} else {
 									// Password is correct
 									session_start();
-
+									echo "Logged in";
 									$_SESSION["loggedin"] = True;
-									$_SESSION['id'] = $id;
 									$_SESSION['username'] = $username;
 
 									header("Location: home.php");

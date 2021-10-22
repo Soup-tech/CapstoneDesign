@@ -38,7 +38,6 @@
     <p>The caregiver menu allows for adding, editing and removing caregivers. Caregivers act as admins of the MedMag as they can add new medication, removing current medication and look at statistics concerning the patient.</p>
     <p>TODO:</p>
     <ul>
-      <li>Create add caregiver form</li>
       <li>Create edit caregiver form</li>
       <ul>
         <li>Select caregiver</li>
@@ -52,21 +51,11 @@
       <li>Create history form</li>
       <li>Record when medication was actually dispensed</li>
     </ul>
-    <h3>Medication Amount</h3>
-    <p>Shows current medication amount and expected refill date.</p>
-    <p>TODO:</p>
-    <ul>
-      <li>Create medication amount page</li>
-      <ul>
-        <li>Calculate expected refill date based on current medication amount</li>
-      </ul>
     </ul>
     <h2>m3dicin3 Daemon</h2>
     <p>The m3dicin3 daemon is the second half of the MedMag. This daemon determines when to dispense medication.</p>
     <p>TODO:</p>
     <ul>
-      <li>Pull and store times from the database</li>
-      <li>Optimize sound notification</li>
       <li>Create reset button</li>
     </ul>
   </body>

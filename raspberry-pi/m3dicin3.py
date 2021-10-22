@@ -123,19 +123,18 @@ while True:
     # Pull current time to the nearest minute
     n = datetime.now()
     current_time = n.strftime("%H:%M")
-    print("[+] Got Current Time")
-    
+    print("[+] Current Time: {}\n".format(current_time))
+
     # Pull information from database
     for row in cur:
         med_time = ":".join(str(row[2]).split()[1].split('.')[0].split(':')[0:2])
         
         if (current_time == med_time):
-            print("\t[+] We have a match!")
             dispense = 1
             break
     
     cur.close()
-    sleep(2)
+    sleep(5)
     # Time to take medication begin notification actions
     if (dispense == 1):
         print("[+] Time to Dispense!")
@@ -157,7 +156,7 @@ while True:
         print("[+] Button has been pushed")
         
         # Killing audio
-        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
+        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
         pid = ffplay.stdout.read().decode('utf-8')
         pid = pid.split('\n')
         os.system('kill ' + pid[0])

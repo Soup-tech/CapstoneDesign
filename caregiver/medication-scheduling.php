@@ -6,10 +6,7 @@
     $name_err = $amount_err = "";
 
     // Submission 
-    if (isset($_POST['submit'])) {
-        // ####################################################
-        // ######### User input medication routine ############
-        // ####################################################
+    if (isset($_POST['submit'])) { // Updating information
         // Get POST request
         $day_count = $_POST['Day-Count'];
         $part = $_POST['Day-Count-Part'];
@@ -65,14 +62,14 @@
             echo "Something went wrong";
         }
         
-    } else if (isset($_POST['reset'])) {
+    } else if (isset($_POST['reset'])) { // Clearing medication
         // Get POST request
         $day = $_POST['day'];
         $part = $_POST['part'];
 
         // Correct format
         $full_day = $day.'-'.$part;
-        echo $full_day;
+
         // Prepare sql
         $sql = "UPDATE `medicine` SET `NAME`='',`AMOUNT`='',`TIME`='' WHERE `DAY-COUNT`='".$full_day."'";
         // echo $sql; // DEBUGGING
@@ -87,9 +84,11 @@
 
             // Execute
             if (mysqli_stmt_execute($stmt)) {
-                echo "Success!";
+                // echo "Success!"; // DEBUG
+                return;
             } else {
                 echo "Did not successfully update";
+                return;
             }
 
         } else {
@@ -129,7 +128,7 @@
     /*a:hover {color: red; } */
     .card {
         width: 300;
-        margin: 0 auto;
+        margin: 0 auto; 
         /* Added */
         float: none;
         /* Added */
@@ -139,33 +138,7 @@
     }
     </style>
 </head>
-<form id="reset" method="POST">
-    <label for="">Day Num.</label>
-    <select name="day">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-        <option value="14">14</option>
-    </select>
-    <br>
-    <label for="">Part</label>
-    <select name="part">
-        <option value="1">AM</option>
-        <option value="2">PM</option>
-    </select>
-    <br>
-    <button type="submit" name="reset" class="btn btn-primary">Submit</button>
-</form>
+
 
 <div class="card">
     <div class="card border-dark mb-3" style="max-width: 18rem;">
@@ -191,10 +164,7 @@
                     <option value="13">13</option>
                     <option value="14">14</option>
                 </select>
-                <select name="Day-Count-Part">
-                    <option value="1">AM</option>
-                    <option value="2">PM</option>
-                </select>
+                <br>
                 <select name="Hour">
                     <option value="00">00</option>
                     <option value="01">01</option>
@@ -272,10 +242,45 @@
                     <option value="58">58</option>
                     <option value="59">59</option>
                 </select>
+                <select name="Day-Count-Part">
+                    <option value="1">AM</option>
+                    <option value="2">PM</option>
+                </select>
+
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
+</div>
+
+<div class="card">
+    <form id="reset" method="POST">
+        <label for="">Day Num.</label>
+        <select name="day">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+        </select>
+        <br>
+        <label for="">Part</label>
+        <select name="part">
+            <option value="1">AM</option>
+            <option value="2">PM</option>
+        </select>
+        <br>
+        <button type="submit" name="reset" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 
 <div class="container">
@@ -292,13 +297,13 @@
                     <div class="card" >
                         <p>Day '.$i.'</p>
                         <br>
-                        <p>Name: '.$row['NAME'].'</p>
-                        <p>Amount: '.$row['AMOUNT'].'</p>
-                        <p>Time: '.$row['TIME'].'</p>
+                        <p>Name: '.htmlspecialchars($row['NAME'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Amount: '.htmlspecialchars($row['AMOUNT'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Time: '.htmlspecialchars($row['TIME'],ENT_QUOTES,'UTF-8').'</p>
                         <br>
-                        <p>Name: '.$next_row['NAME'].'</p>
-                        <p>Amount: '.$next_row['AMOUNT'].'</p>
-                        <p>Time: '.$next_row['TIME'].'</p>
+                        <p>Name: '.htmlspecialchars($next_row['NAME'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Amount: '.htmlspecialchars($next_row['AMOUNT'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Time: '.htmlspecialchars($next_row['TIME'],ENT_QUOTES,'UTF-8').'</p>
                     </div>
                 </div>
                 ';
@@ -316,13 +321,13 @@
                 <div class="col-md">
                     <div class="card" >
                         <p>Day '.$i.'</p>
-                        <p>Name: '.$row['NAME'].'</p>
-                        <p>Amount: '.$row['AMOUNT'].'</p>
-                        <p>Time: '.$row['TIME'].'</p>
+                        <p>Name: '.htmlspecialchars($row['NAME'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Amount: '.htmlspecialchars($row['AMOUNT'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Time: '.htmlspecialchars($row['TIME'],ENT_QUOTES,'UTF-8').'</p>
                         <br>
-                        <p>Name: '.$next_row['NAME'].'</p>
-                        <p>Amount: '.$next_row['AMOUNT'].'</p>
-                        <p>Time: '.$next_row['TIME'].'</p>
+                        <p>Name: '.htmlspecialchars($next_row['NAME'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Amount: '.htmlspecialchars($next_row['AMOUNT'],ENT_QUOTES,'UTF-8').'</p>
+                        <p>Time: '.htmlspecialchars($next_row['TIME'],ENT_QUOTES,'UTF-8').'</p>
                     </div>
                 </div>
                 ';

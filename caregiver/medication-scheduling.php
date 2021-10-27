@@ -160,8 +160,8 @@
     <br>
     <label for="">Part</label>
     <select name="part">
-        <option value="1">AM</option>
-        <option value="2">PM</option>
+        <option value="1">Slot 1</option>
+        <option value="2">Slot 2</option>
     </select>
     <br>
     <button type="submit" name="reset" class="btn btn-primary">Submit</button>
@@ -192,8 +192,8 @@
                     <option value="14">14</option>
                 </select>
                 <select name="Day-Count-Part">
-                    <option value="1">AM</option>
-                    <option value="2">PM</option>
+                    <option value="1">Slot 1</option>
+                    <option value="2">Slot 2</option>
                 </select>
                 <select name="Hour">
                     <option value="00">00</option>
@@ -208,7 +208,18 @@
                     <option value="09">09</option>
                     <option value="10">10</option>
                     <option value="11">11</option>
-                    <option value="12">12</option>
+		    <option value="12">12</option>
+		    <option value="13">13</option>
+		    <option value="14">14</option>
+		    <option value="15">15</option>
+		    <option value="16">16</option>
+		    <option value="17">17</option>
+		    <option value="18">18</option>
+		    <option value="19">19</option>
+		    <option value="20">20</option>
+		    <option value="21">21</option>
+		    <option value="22">22</option>
+		    <option value="23">23</option>
                 </select>
                 <select name="Minute">
                     <option value="00">00</option>

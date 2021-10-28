@@ -38,6 +38,7 @@ def mariadb_connection():
                 port = 3306,
                 database = "capstone"
             )
+        conn.autocommit = True
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
@@ -117,6 +118,17 @@ def reFormat():
     """
     return str(day_count) + '-' + str(part_count)
 
+def writeHistory(pushTime,expectedTime,medicationName,amount):
+    cur = mariadb_connection()
+    # sql = "INSERT INTO `history`(`pushTime`, `expectedTime`, `dayCount`, `medicationName`, `amount`) VALUES (ee)
+    try:
+        cur.execute("INSERT INTO `history`(`pushTime`, `expectedTime`, `medicationName`, `amount`) VALUES (?,?,?,?)",(pushTime,expectedTime,medicationName,amount))
+    except mariadb.Error as e:
+        print(f"Error writing history to MariaDB: {e}")
+    
+    cur.close() 
+    return
+
 # ======= Main =======
 
 while True:
@@ -151,6 +163,12 @@ while True:
             print("| [+] Med Time\t\t\t\t\t|")
             print("|\t[+] {} @ {} on {}\t|".format(row[0],row[3],row[1]))
             dispense = True
+            
+            # History values
+            medicationName = row[0]
+            dayCount = row[1]
+            amount = row[2]
+            expectedTime = row[3]
     
     cur.close()
     sleep(10)
@@ -172,7 +190,6 @@ while True:
         print("| [+] Waiting for button push\t\t\t|")
         while (not button.is_pressed):
             pass
-
         print("| [+] Button has been pushed\t\t\t|")
         
         # Killing audio
@@ -204,6 +221,10 @@ while True:
             
             if (day_count == 15):
                 day_count = 1
+        
+        # Write Hisotry information to database
+        pushTime = datetime.now()
+        writeHistory(pushTime,expectedTime,medicationName,amount)
         
         dispense = False
         print("| [+] Finished Dispensing!\t\t|")

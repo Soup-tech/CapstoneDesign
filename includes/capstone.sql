@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5ubuntu0.5
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 21, 2021 at 10:35 PM
--- Server version: 10.1.48-MariaDB-0ubuntu0.18.04.1
--- PHP Version: 7.2.24-0ubuntu0.18.04.8
+-- Generation Time: Oct 27, 2021 at 09:49 PM
+-- Server version: 10.3.29-MariaDB-0+deb10u1
+-- PHP Version: 7.3.29-1~deb10u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,7 +31,7 @@ CREATE TABLE `accounts` (
   `username` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `caregiver` int(1) NOT NULL DEFAULT '0'
+  `caregiver` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -40,6 +40,33 @@ CREATE TABLE `accounts` (
 
 INSERT INTO `accounts` (`name`, `username`, `email`, `password`, `caregiver`) VALUES
 ('admin', 'admin', 'admin@email.com', '$2y$10$g5gxzSJIV41fl.d2wAQ6Nuc1s3wh6TBSYkp3UBMSHjmcMFpyHMZp.', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history`
+--
+
+CREATE TABLE `history` (
+  `pushTime` varchar(32) NOT NULL,
+  `expectedTime` varchar(32) NOT NULL,
+  `medicationName` varchar(32) NOT NULL,
+  `amount` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`pushTime`, `expectedTime`, `medicationName`, `amount`) VALUES
+('03:12', '03:10', 'painkillers', '3'),
+('21:27', '05:30', 'skittles', '2'),
+('21:28', '05:30', 'skittles', '2'),
+('2021-10-27 21:33:21.027718', '21:33', 'painkillers', '2'),
+('2021-10-27 21:43:46.015414', '21:43', 'painkillers', '2'),
+('2021-10-27 21:45:24.638068', '21:45', 'skittles', '4'),
+('2021-10-27 21:47:13.158105', '21:46', 'medication', '2'),
+('2021-10-27 21:48:11.833851', '21:47', 'bang', '5');
 
 -- --------------------------------------------------------
 
@@ -59,10 +86,10 @@ CREATE TABLE `medicine` (
 --
 
 INSERT INTO `medicine` (`NAME`, `DAY-COUNT`, `AMOUNT`, `TIME`) VALUES
-('', '1-1', '', ''),
-('', '1-2', '', ''),
-(NULL, '2-1', NULL, NULL),
-(NULL, '2-2', NULL, NULL),
+('painkillers', '1-1', '2', '21:43'),
+('skittles', '1-2', '4', '21:45'),
+('medication', '2-1', '2', '21:46'),
+('bang', '2-2', '5', '21:47'),
 ('', '3-1', '', ''),
 ('', '3-2', '', ''),
 (NULL, '4-1', NULL, NULL),

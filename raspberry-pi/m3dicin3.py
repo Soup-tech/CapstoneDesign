@@ -20,8 +20,10 @@ from datetime import datetime
 
 # ======= Variables =======
 button = Button(2)
-dispense = 0
+dispense = False
 
+day_count = 1  
+part_count = 1
 # ======= Function =======
 def mariadb_connection():
     """
@@ -36,6 +38,7 @@ def mariadb_connection():
                 port = 3306,
                 database = "capstone"
             )
+        conn.autocommit = True
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
@@ -84,12 +87,10 @@ def motor():
            [0,0,0,1],
            [1,0,0,1]]
 
-    print("\t[+] Setting up pins")
     for pin in control_pins:
         GPIO.setup(pin,GPIO.OUT)
         GPIO.output(pin,0)
 
-    print("\t[+] Stepping")
     for i in range(512):
         for halfstep in range(8):
             for pin in range(4):
@@ -110,11 +111,30 @@ def audio():
     
     sys.exit(0)
 
+def reFormat():
+    """
+    Puts the format of the counters in this script
+    into the same format as in the database.
+    """
+    return str(day_count) + '-' + str(part_count)
+
+def writeHistory(pushTime,expectedTime,medicationName,amount):
+    cur = mariadb_connection()
+    # sql = "INSERT INTO `history`(`pushTime`, `expectedTime`, `dayCount`, `medicationName`, `amount`) VALUES (ee)
+    try:
+        cur.execute("INSERT INTO `history`(`pushTime`, `expectedTime`, `medicationName`, `amount`) VALUES (?,?,?,?)",(pushTime,expectedTime,medicationName,amount))
+    except mariadb.Error as e:
+        print(f"Error writing history to MariaDB: {e}")
+    
+    cur.close() 
+    return
+
 # ======= Main =======
 
 while True:
     cur = mariadb_connection()
-    print("[+] Made mariadb connection")
+    print("-------------------------------------------------")
+    print("| [+] Made mariadb connection\t\t\t|")
     try:
         cur.execute("SELECT * FROM medicine")
     except mariadb.Error as e:
@@ -123,47 +143,64 @@ while True:
     # Pull current time to the nearest minute
     n = datetime.now()
     current_time = n.strftime("%H:%M")
-    print("[+] Current Time: {}\n".format(current_time))
+    print("| [+] Current Time: {}\t\t\t|".format(current_time))
+    
+    # Reformat day and part counter
+    world = reFormat()
+    print("| [+] World: {}\t\t\t\t|".format(world))
 
     # Pull information from database
+    print("| [+] Checking db times\t\t\t\t|")
     for row in cur:
-        med_time = ":".join(str(row[2]).split()[1].split('.')[0].split(':')[0:2])
+        # Error checking
+        if (row[3] is None): # Is row None type?
+            continue
+        elif (len(row[3]) == 0): # Is there anything in time slot
+            continue
         
-        if (current_time == med_time):
-            dispense = 1
-            break
+        # Check for proper day and part
+        if ((row[1] == world) and (row[3] == current_time)):
+            print("| [+] Med Time\t\t\t\t\t|")
+            print("|\t[+] {} @ {} on {}\t|".format(row[0],row[3],row[1]))
+            dispense = True
+            
+            # History values
+            medicationName = row[0]
+            dayCount = row[1]
+            amount = row[2]
+            expectedTime = row[3]
     
     cur.close()
-    sleep(5)
+    sleep(10)
+    
     # Time to take medication begin notification actions
-    if (dispense == 1):
-        print("[+] Time to Dispense!")
+    if (dispense):
+        print("| [+] Time to Dispense!\t\t\t\t|")
         b = os.fork()
         if (b == 0):
-            print("[+] Breathing")
+            print("| [+] Breathing\t\t\t\t\t|")
             breath()
 
         a = os.fork()
         if (a == 0):
-            print("[+] Audio")
+            print("| [+] Audio\t\t\t\t\t|")
             audio()
 
         # Wait for user interaction
-        print("[+] Waiting for button push")
+        print("| [+] Waiting for button push\t\t\t|")
         while (not button.is_pressed):
             pass
-
-        print("[+] Button has been pushed")
+        print("| [+] Button has been pushed\t\t\t|")
         
         # Killing audio
-        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
+        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
         pid = ffplay.stdout.read().decode('utf-8')
         pid = pid.split('\n')
         os.system('kill ' + pid[0])
         
         m = os.fork()
         if (m == 0):
-            print("[+] Motor")
+            print("| [+] Motor\t\t\t|")
             motor()
        
         sleep(5)
@@ -176,9 +213,20 @@ while True:
         os.wait()
         os.wait()
 
-        dispense = 0
-        print("[+] Finished Dispensing!")
-        sleep(60)
-
+        # Update script information
+        part_count += 1
+        if (part_count == 3):
+            part_count = 1
+            day_count += 1
+            
+            if (day_count == 15):
+                day_count = 1
+        
+        # Write Hisotry information to database
+        pushTime = datetime.now()
+        writeHistory(pushTime,expectedTime,medicationName,amount)
+        
+        dispense = False
+        print("| [+] Finished Dispensing!\t\t|")
 
 

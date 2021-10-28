@@ -84,8 +84,7 @@
 
             // Execute
             if (mysqli_stmt_execute($stmt)) {
-                // echo "Success!"; // DEBUG
-                return;
+                echo "Success!"; // DEBUG
             } else {
                 echo "Did not successfully update";
                 return;
@@ -94,6 +93,19 @@
         } else {
             echo "Something went wrong";
         } 
+    } else if (isset($_POST['clear-all'])){
+        
+        $sql = "UPDATE `medicine` SET `NAME`='',`AMOUNT`='',`TIME`='' WHERE 1";
+
+        if ($stmt = mysqli_prepare($conn,$sql)) {
+            if (mysqli_stmt_execute($stmt)) {
+                echo "Success";
+            } else {
+                echo "Could not execute";
+            }
+        } else {
+            echo "Could not connect to database";
+        }
     }
 
     
@@ -143,6 +155,42 @@
 <div class="card">
     <div class="card border-dark mb-3" style="max-width: 18rem;">
         <div class="card-body">
+            <b> Remove Medication Entry </b>
+                <form id="reset" method="POST">
+                    <label for="">Day Num.</label>
+                        <select name="day">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                        </select>
+                    <br>
+                        <label for="">Part</label>
+                            <select name="part">
+                                <option value="1">Slot 1</option>
+                                <option value="2">Slot 2</option>
+                            </select>
+                    <br>
+                    <button type="submit" name="reset" class="btn btn-primary">Submit</button>
+                </form>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body">
+        <b> Add Medication Entry </b>
             <form id="Dispatch-Time" method="POST">
                 <label for="">Medication Name</label>
                 <input type="text" name="name" class="form-control">
@@ -164,7 +212,10 @@
                     <option value="13">13</option>
                     <option value="14">14</option>
                 </select>
-                <br>
+                <select name="Day-Count-Part">
+                    <option value="1">Slot 1</option>
+                    <option value="2">Slot 2</option>
+                </select>
                 <select name="Hour">
                     <option value="00">00</option>
                     <option value="01">01</option>
@@ -179,6 +230,17 @@
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
                 </select>
                 <select name="Minute">
                     <option value="00">00</option>
@@ -242,10 +304,6 @@
                     <option value="58">58</option>
                     <option value="59">59</option>
                 </select>
-                <select name="Day-Count-Part">
-                    <option value="1">AM</option>
-                    <option value="2">PM</option>
-                </select>
 
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -253,35 +311,11 @@
     </div>
 </div>
 
-<div class="card">
-    <form id="reset" method="POST">
-        <label for="">Day Num.</label>
-        <select name="day">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-        </select>
-        <br>
-        <label for="">Part</label>
-        <select name="part">
-            <option value="1">AM</option>
-            <option value="2">PM</option>
-        </select>
-        <br>
-        <button type="submit" name="reset" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+<form id="Clear-All" method="POST">
+    <label for="">Clear All</label>
+    <button type="submit" name="clear-all" class="btn btn-primary">Clear All</button>
+</form>
+
 
 <div class="container">
     <div class="row">

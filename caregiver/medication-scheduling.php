@@ -5,6 +5,12 @@
 
     $name_err = $amount_err = "";
 
+    // Check if the user is logged in, if not redirect to the login page
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
+        header("Location: /index.php");
+        exit;
+    }
+
     // Submission 
     if (isset($_POST['submit'])) { // Updating information
         // Get POST request

@@ -1,5 +1,12 @@
 <?php
     require '../includes/header.php';
+    require '../includes/dbhandler.php';
+
+    // Check if the user is logged in, if not redirect to the login page
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
+        header("Location: /index.php");
+        exit;
+    }
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +28,33 @@
 
     <body>
         <div class="history-menu">
-            <!-- #TODO Interactive history menu -->
+            <?php
+                $sql = "SELECT * FROM history ORDER BY pushTime DESC";
+                $results = mysqli_query($conn, $sql);
+
+                while ($row = mysqli_fetch_assoc($results)) {
+
+                    # String parsing
+                    $pushTime = $row['pushTime'];
+                    $pushTimeArray = explode(" ",$pushTime);
+                    $date = $pushTimeArray[0];
+                    $timeArray = explode(":",$pushTimeArray[1]);
+                    $time = $timeArray[0].':'.$timeArray[1];
+
+                    echo 'Medication Taken: '.$row['medicationName'];
+                    echo '<br>';
+                    echo 'Amount: '.$row['amount'];
+                    echo '<br>';
+                    echo 'Date Dispensed: '.$date;
+                    echo '<br>';
+                    echo 'Time Dispensed: '.$time;
+                    echo '<br>';
+                    echo 'Expected Dispense Time: '.$row['expectedTime'];
+                    echo '<br>';
+                    echo '<br>';
+                }
+
+            ?>
         </div>
         <div class="menu-wrapper">
             <div class="back">

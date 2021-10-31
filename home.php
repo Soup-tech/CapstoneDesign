@@ -41,6 +41,11 @@
             body {font: 20px sans-serif;
                 background-image: url('includes/backr.jpg');    /* Testing adding a background image for the website */
             }
+            .card {
+                margin: 0 auto; 
+                float: none; 
+                margin-bottom: 10px;  }
+                
             .wrapper { width: 300px; padding: 20px; margin: 100px auto; }
             /*.form-group { border: 5px outset red; background-color: lightblue; text-align: center;}*/
             a { color: inherit; text-decoration: none; }
@@ -62,25 +67,27 @@
         </div>
 
         <?php
+        echo '<div class="card bg-info border-dark mb-3" style=" max-width: 400px;"> 
+        <b> Current Alerts</b> ';
             echo 'Expected Refill Date: '.$expected_refill_date;
             echo '<br>';
             echo '<br>';
-            echo 'Quick History';
-            echo '<br>';
+            
+            echo '<b>Quick History</b>';
             echo 'Previously Dispensed Medication: '.$previous_medication;
             echo '<br>';
             echo 'Push Time: '.$previous_pushtime;
             echo '<br>';
             echo '<br>';
-            echo 'Expected';
-            echo '<br>';
+
+            echo '<b>Expected</b>';
             echo 'Next Medication: '.$next_medication;
             echo '<br>';
-            echo 'Next World: '.$next_world;
+            echo 'Day-Slot: '.$next_world;
             echo '<br>';
             echo 'Expected Dispense Time: '.$expected_pushtime;
             echo '<br>';            
-
+        echo'</div>';        
         ?>
     </body>
 </html>

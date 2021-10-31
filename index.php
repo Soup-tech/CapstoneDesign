@@ -68,8 +68,6 @@
 									// Is the loggedin user a caregiver?
 									if ($caregiver == 1) {
 										$_SESSION['caregiver'] = True;
-									} else {
-										$_SESSION['caregiver'] = False;
 									}
 
 									header("Location: home.php");

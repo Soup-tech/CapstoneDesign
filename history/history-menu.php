@@ -59,7 +59,7 @@
         </div>
         <div class="menu-wrapper">
             <div class="back">
-                <a href="../">Back</a>
+                <a href="/home.php">Back</a>
             </div>
             <div class="export">
                 <a href="#export">Export</a>

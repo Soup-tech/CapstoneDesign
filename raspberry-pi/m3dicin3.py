@@ -17,11 +17,14 @@ from signal import pause
 from pydub import AudioSegment
 from pydub.playback import play
 from datetime import datetime
+from datetime import timedelta
 
 # ======= Variables =======
 button = Button(2)
 dispense = False
 
+expected_refill_date = ""
+world = ""
 day_count = 1  
 part_count = 1
 # ======= Function =======
@@ -119,6 +122,9 @@ def reFormat():
     return str(day_count) + '-' + str(part_count)
 
 def writeHistory(pushTime,expectedTime,medicationName,amount):
+    """
+    Writes history values to the database
+    """
     cur = mariadb_connection()
     # sql = "INSERT INTO `history`(`pushTime`, `expectedTime`, `dayCount`, `medicationName`, `amount`) VALUES (ee)
     try:
@@ -129,8 +135,52 @@ def writeHistory(pushTime,expectedTime,medicationName,amount):
     cur.close() 
     return
 
-# ======= Main =======
+def killAudio():
+    """
+    Killing audio is tricky. I have to kill the audio in a specific way
+    depending on the number of processes running.
+    """
+    # Get ffplay process. The location changes depending on the number of processes I think
+    ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
 
+    # Bytes to string
+    pid = ffplay.stdout.read().decode('utf-8')
+
+    # String to array of process ID's
+    pid = pid.split('\n')
+    
+    # Kill processes
+    for p in pid:
+        os.system('kill {} 2> /dev/null'.format(p))
+
+    return
+
+def quickInfo(prevMedication, prevPushTime, nextMedication, nextWorld, expPushTime):
+    """
+    Updates the quick_info.csv file. This file is read by the web applciation to display
+    quick alert information, history, medication amount, etc.
+    """
+    # Update expected refill date if we are at world 1-1
+    if (world == "1-1"):
+        strdt = str(datetime.today()).split(' ')[0]
+        d = datetime.strptime(strdt, "%Y-%m-%d")
+        expected_refill_date = d + timdelta(days=14)
+    
+    
+
+    quick_info = open('quick_info.csv','w')
+    
+    # Write header for CSV file
+    header = "Expected Refill Date,Previous Medication,Previous PushTime,Next Medication,Next World,Expected PushTime\n"
+    quick_info.write(header)
+    
+    # Write updated information to CSV file
+    info = "{},{},{},{},{},{}\n".format(expected_refill_date,prevMedication,prevPushTime,nextMedication,nextWorld,expPushTime)
+    quick_info.write(info)
+
+    quick_info.close()
+
+# ======= Main =======
 while True:
     cur = mariadb_connection()
     print("-------------------------------------------------")
@@ -193,17 +243,17 @@ while True:
         print("| [+] Button has been pushed\t\t\t|")
         
         # Killing audio
-        ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
-        pid = ffplay.stdout.read().decode('utf-8')
-        pid = pid.split('\n')
-        os.system('kill ' + pid[0])
+        killAudio()
         
+        # Start motor
         m = os.fork()
         if (m == 0):
             print("| [+] Motor\t\t\t|")
             motor()
        
         sleep(5)
+
+        # Kill Processes and clean up
         os.kill(b,signal.SIGKILL)
         os.kill(a,signal.SIGKILL)
         os.kill(m,signal.SIGKILL)
@@ -212,6 +262,7 @@ while True:
         os.wait()
         os.wait()
         os.wait()
+        
 
         # Update script information
         part_count += 1
@@ -221,11 +272,14 @@ while True:
             
             if (day_count == 15):
                 day_count = 1
-        
-        # Write Hisotry information to database
+
+        # Write history to database
         pushTime = datetime.now()
-        writeHistory(pushTime,expectedTime,medicationName,amount)
-        
+        writeHistory(pushTime, expectedTime, medicationName, amount)
+
+        # Update quick information file for web app
+        # quickInfo(medicationName,pushTime,
+
         dispense = False
         print("| [+] Finished Dispensing!\t\t|")
 

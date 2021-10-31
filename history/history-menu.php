@@ -22,7 +22,7 @@
             .back { width: 150px; float: left; border: 1px solid grey; margin-left: 100px; text-align: center; }
             .alerts { width: 150px; float: left; border: 1px solid red; margin-left: 700px; text-align: center; }
             .medication-amount { width: 150px; border: 1px solid green; margin-left: 20px; text-align: center; overflow: hidden; float: left;  }
-            .export { width: 150px; border: 1px solid blue; margin-left: 20px; text-align: center; overflow: hidden; float: left; }
+            .export { width: 150px; border: 1px solid grey; margin-left: 20px; text-align: center; overflow: hidden; float: left; }
             
         </style>
     </head>
@@ -60,12 +60,6 @@
         <div class="menu-wrapper">
             <div class="back">
                 <a href="../">Back</a>
-            </div>
-            <div class="alerts">
-                <a href="alerts.php">Alerts</a>
-            </div>
-            <div class="medication-amount">
-                <a href="medication-amount.php">Medication Amount</a>
             </div>
             <div class="export">
                 <a href="#export">Export</a>

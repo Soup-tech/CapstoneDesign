@@ -35,7 +35,7 @@
 		// Check if creds are valid
 		if (empty($username_err) && empty($password_err)) {
 			// Prepare sql query
-			$sql = "SELECT username,password FROM accounts WHERE username=?";
+			$sql = "SELECT username,password,caregiver FROM accounts WHERE username=?";
 			
 			if ($stmt = mysqli_prepare($conn,$sql)) {
 				// Bind the variables
@@ -51,7 +51,7 @@
 					
 					// Check if username exists
 					if (mysqli_stmt_num_rows($stmt) == 1) {
-						mysqli_stmt_bind_result($stmt, $username, $hashed_password);
+						mysqli_stmt_bind_result($stmt, $username, $hashed_password, $caregiver);
 						
 						if (mysqli_stmt_fetch($stmt)) {
 							if (password_verify($password, $hashed_password)) {
@@ -62,9 +62,15 @@
 								} else {
 									// Password is correct
 									session_start();
-									echo "Logged in";
 									$_SESSION["loggedin"] = True;
 									$_SESSION['username'] = $username;
+
+									// Is the loggedin user a caregiver?
+									if ($caregiver == 1) {
+										$_SESSION['caregiver'] = True;
+									} else {
+										$_SESSION['caregiver'] = False;
+									}
 
 									header("Location: home.php");
 								}

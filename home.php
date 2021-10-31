@@ -1,6 +1,6 @@
 <?php
     require 'includes/header.php';
-   // session_start();
+    session_start();
 
     // Check if the user is logged in, if not redirect to the login page
     /*
@@ -28,8 +28,6 @@
     $next_world = $information[4];
     $expected_pushtime = $information[5];
     
-
-    
 ?>
 
 <!DOCTYPE html>
@@ -50,12 +48,11 @@
     <body>
     
         <div class="wrapper">
-            <div class="form-group">
-                <a href="caregiver/caregiver-menu.php">Caregiver Menu</a> 
-            </div>
-            <div class="form-group">
-                <a href="#system-settings">System Settings</a>
-            </div>
+            <?php if (isset($_SESSION['caregiver'])): ?>
+                    <div class="form-group">
+                        <a href="caregiver/caregiver-menu.php">Caregiver Menu</a> 
+                    </div>
+            <?php endif ?>
             <div class="form-group">
                 <a href="history/history-menu.php">History Menu</a>
             </div>

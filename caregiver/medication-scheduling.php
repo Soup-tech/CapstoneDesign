@@ -317,10 +317,10 @@
     </div>
 </div>
 
-<form id="Clear-All" method="POST">
-    <label for="">Clear All</label>
-    <button type="submit" name="clear-all" class="btn btn-primary">Clear All</button>
-</form>
+        <form id="Clear-All" method="POST">
+             
+            <button type="submit" name="clear-all" class="btn btn-danger btn-lg" style="center">Clear All</button>
+        </form>
 
 
 <div class="container">

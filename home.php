@@ -9,7 +9,29 @@
         exit;
     }
     */
+
+    //// Alert information ////    
+    // Read and pull information into array
+    $myFile = "raspberry-pi/quick_info.csv";
+    $lines = file($myFile);
+    $information = explode(",", $lines[1]);
+
+    // Expected refill date
+    $expected_refill_date = $information[0];
+
+    // Previous information
+    $previous_medication = $information[1];
+    $previous_pushtime = $information[2];
+    
+    // Next information
+    $next_medication = $information[3];
+    $next_world = $information[4];
+    $expected_pushtime = $information[5];
+    
+
+    
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,5 +60,27 @@
                 <a href="history/history-menu.php">History Menu</a>
             </div>
         </div>
+
+        <?php
+            echo 'Expected Refill Date: '.$expected_refill_date;
+            echo '<br>';
+            echo '<br>';
+            echo 'Quick History';
+            echo '<br>';
+            echo 'Previously Dispensed Medication: '.$previous_medication;
+            echo '<br>';
+            echo 'Push Time: '.$previous_pushtime;
+            echo '<br>';
+            echo '<br>';
+            echo 'Expected';
+            echo '<br>';
+            echo 'Next Medication: '.$next_medication;
+            echo '<br>';
+            echo 'Next World: '.$next_world;
+            echo '<br>';
+            echo 'Expected Dispense Time: '.$expected_pushtime;
+            echo '<br>';            
+
+        ?>
     </body>
 </html>

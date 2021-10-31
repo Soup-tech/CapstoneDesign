@@ -146,7 +146,7 @@
     /*a:hover {color: red; } */
     .card {
         width: 300;
-        margin: 0 auto; 
+        margin: 0 auto;
         /* Added */
         float: none;
         /* Added */
@@ -162,33 +162,33 @@
     <div class="card border-dark mb-3" style="max-width: 18rem;">
         <div class="card-body">
             <b> Remove Medication Entry </b>
-                <form id="reset" method="POST">
-                    <label for="">Day Num.</label>
-                        <select name="day">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                        </select>
-                    <br>
-                        <label for="">Part</label>
-                            <select name="part">
-                                <option value="1">Slot 1</option>
-                                <option value="2">Slot 2</option>
-                            </select>
-                    <br>
-                    <button type="submit" name="reset" class="btn btn-primary">Submit</button>
-                </form>
+            <form id="reset" method="POST">
+                <label for="">Day Num.</label>
+                <select name="day">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                </select>
+                <br>
+                <label for="">Part</label>
+                <select name="part">
+                    <option value="1">Slot 1</option>
+                    <option value="2">Slot 2</option>
+                </select>
+                <br>
+                <button type="submit" name="reset" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
 </div>
@@ -196,7 +196,7 @@
 <div class="card">
     <div class="card border-dark mb-3" style="max-width: 18rem;">
         <div class="card-body">
-        <b> Add Medication Entry </b>
+            <b> Add Medication Entry </b>
             <form id="Dispatch-Time" method="POST">
                 <label for="">Medication Name</label>
                 <input type="text" name="name" class="form-control">
@@ -317,10 +317,9 @@
     </div>
 </div>
 
-        <form id="Clear-All" method="POST">
-             
-            <button type="submit" name="clear-all" class="btn btn-danger btn-lg" style="center">Clear All</button>
-        </form>
+<form id="Clear-All" method="POST">
+    <button type="submit" name="clear-all" class="btn btn-danger btn-lg">Clear All</button>
+</form>
 
 
 <div class="container">
@@ -376,8 +375,4 @@
     </div>
 </div>
 </div>
-
-
-
-
 </html>

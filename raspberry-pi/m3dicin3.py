@@ -23,10 +23,11 @@ from datetime import timedelta
 button = Button(2)
 dispense = False
 
-expected_refill_date = ""
+erd = ""
 world = ""
 day_count = 1  
 part_count = 1
+
 # ======= Function =======
 def mariadb_connection():
     """
@@ -126,7 +127,6 @@ def writeHistory(pushTime,expectedTime,medicationName,amount):
     Writes history values to the database
     """
     cur = mariadb_connection()
-    # sql = "INSERT INTO `history`(`pushTime`, `expectedTime`, `dayCount`, `medicationName`, `amount`) VALUES (ee)
     try:
         cur.execute("INSERT INTO `history`(`pushTime`, `expectedTime`, `medicationName`, `amount`) VALUES (?,?,?,?)",(pushTime,expectedTime,medicationName,amount))
     except mariadb.Error as e:
@@ -141,7 +141,7 @@ def killAudio():
     depending on the number of processes running.
     """
     # Get ffplay process. The location changes depending on the number of processes I think
-    ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
+    ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
 
     # Bytes to string
     pid = ffplay.stdout.read().decode('utf-8')
@@ -155,30 +155,40 @@ def killAudio():
 
     return
 
-def quickInfo(prevMedication, prevPushTime, nextMedication, nextWorld, expPushTime):
+def quickInfo(prevMedication, prevPushTime, erd):
     """
     Updates the quick_info.csv file. This file is read by the web applciation to display
     quick alert information, history, medication amount, etc.
     """
-    # Update expected refill date if we are at world 1-1
-    if (world == "1-1"):
-        strdt = str(datetime.today()).split(' ')[0]
-        d = datetime.strptime(strdt, "%Y-%m-%d")
-        expected_refill_date = d + timdelta(days=14)
+    nextMedication = ""
+    expPushTime = ""
     
+    # Update world to get future information
+    world = reFormat()
     
-
-    quick_info = open('quick_info.csv','w')
-    
+    # Pull future mediction information from database
+    cur = mariadb_connection()
+    try:
+        cur.execute("SELECT * FROM medicine WHERE `DAY-COUNT`='{}'".format(world))
+    except:
+        print(f"Error pulling DAY-COUNT from MariaDB: {e}")
+    for row in cur:
+        nextMedication = row[0]
+        expPushTime = row[3]
+    cur.close()
+   
     # Write header for CSV file
+    quick_info = open('quick_info.csv','w')
     header = "Expected Refill Date,Previous Medication,Previous PushTime,Next Medication,Next World,Expected PushTime\n"
     quick_info.write(header)
     
     # Write updated information to CSV file
-    info = "{},{},{},{},{},{}\n".format(expected_refill_date,prevMedication,prevPushTime,nextMedication,nextWorld,expPushTime)
+    info = "{},{},{},{},{},{}\n".format(erd,prevMedication,prevPushTime,nextMedication,world,expPushTime)
     quick_info.write(info)
 
     quick_info.close()
+    
+    return
 
 # ======= Main =======
 while True:
@@ -278,9 +288,13 @@ while True:
         writeHistory(pushTime, expectedTime, medicationName, amount)
 
         # Update quick information file for web app
-        # quickInfo(medicationName,pushTime,
+        if (world == "1-1"):
+            strdt = str(datetime.today()).split(' ')[0]
+            d = datetime.strptime(strdt, "%Y-%m-%d")
+            erd = d + timedelta(days=14)
+
+        quickInfo(medicationName,pushTime,erd)
 
         dispense = False
         print("| [+] Finished Dispensing!\t\t|")
-
 

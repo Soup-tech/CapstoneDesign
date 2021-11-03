@@ -5,9 +5,12 @@
     // Start session
     session_start();
     
-    // Check if user is logged in
-    if (!isset($_SESSION['loggedin']) && $_SESSION['loggedin'] !== True) {
-        header("location: /index.php");
+    // Check if the user is logged in, if not redirect to the login page
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
+        header("Location: /index.php");
+        exit;
+    } else if (!isset($_SESSION['caregiver'])) { // Ensure users cannot access caregiver menus
+        header("Location: /home.php");
         exit;
     }
     

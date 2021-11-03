@@ -23,12 +23,13 @@ from datetime import timedelta
 button = Button(2)
 dispense = False
 
-erd = ""
+erd = "" # Expected refill date
 world = ""
 day_count = 1  
 part_count = 1
 
-# ======= Function =======
+# ======= Functions =======
+# ==== Database connection ====
 def mariadb_connection():
     """
     Establishes connection to MariaDB
@@ -49,6 +50,7 @@ def mariadb_connection():
 
     return conn.cursor()
 
+# ==== Hardware operations ====
 def breath():
     """
     Causes LED to start "breathing"
@@ -115,6 +117,8 @@ def audio():
     
     sys.exit(0)
 
+
+# ==== Software operations ====
 def reFormat():
     """
     Puts the format of the counters in this script
@@ -141,17 +145,22 @@ def killAudio():
     depending on the number of processes running.
     """
     # Get ffplay process. The location changes depending on the number of processes I think
-    ffplay = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
+    ffplay8 = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 8',shell=True,stdout=subprocess.PIPE)
+    ffplay9 = subprocess.Popen('ps aux | grep ffplay | cut -d " " -f 9',shell=True,stdout=subprocess.PIPE)
 
     # Bytes to string
-    pid = ffplay.stdout.read().decode('utf-8')
+    pid8 = ffplay8.stdout.read().decode('utf-8')
+    pid9 = ffplay9.stdout.read().decode('utf-8')
 
     # String to array of process ID's
-    pid = pid.split('\n')
-    
+    pid8 = pid.split('\n')
+    pid9 = pid.split('\n')
+
     # Kill processes
-    for p in pid:
+    for p in pid8:
         os.system('kill {} 2> /dev/null'.format(p))
+    for p in pid9:
+        os.system("kill {} 2> /dev/null".format(p))
 
     return
 
@@ -193,8 +202,6 @@ def quickInfo(prevMedication, prevPushTime, erd):
 # ======= Main =======
 while True:
     cur = mariadb_connection()
-    print("-------------------------------------------------")
-    print("| [+] Made mariadb connection\t\t\t|")
     try:
         cur.execute("SELECT * FROM medicine")
     except mariadb.Error as e:
@@ -203,14 +210,11 @@ while True:
     # Pull current time to the nearest minute
     n = datetime.now()
     current_time = n.strftime("%H:%M")
-    print("| [+] Current Time: {}\t\t\t|".format(current_time))
     
     # Reformat day and part counter
     world = reFormat()
-    print("| [+] World: {}\t\t\t\t|".format(world))
 
     # Pull information from database
-    print("| [+] Checking db times\t\t\t\t|")
     for row in cur:
         # Error checking
         if (row[3] is None): # Is row None type?
@@ -220,8 +224,6 @@ while True:
         
         # Check for proper day and part
         if ((row[1] == world) and (row[3] == current_time)):
-            print("| [+] Med Time\t\t\t\t\t|")
-            print("|\t[+] {} @ {} on {}\t|".format(row[0],row[3],row[1]))
             dispense = True
             
             # History values
@@ -229,28 +231,25 @@ while True:
             dayCount = row[1]
             amount = row[2]
             expectedTime = row[3]
-    
+
     cur.close()
     sleep(10)
     
     # Time to take medication begin notification actions
     if (dispense):
-        print("| [+] Time to Dispense!\t\t\t\t|")
+        # Breathing
         b = os.fork()
         if (b == 0):
-            print("| [+] Breathing\t\t\t\t\t|")
             breath()
 
+        # Play audio
         a = os.fork()
         if (a == 0):
-            print("| [+] Audio\t\t\t\t\t|")
             audio()
 
         # Wait for user interaction
-        print("| [+] Waiting for button push\t\t\t|")
         while (not button.is_pressed):
             pass
-        print("| [+] Button has been pushed\t\t\t|")
         
         # Killing audio
         killAudio()
@@ -258,9 +257,9 @@ while True:
         # Start motor
         m = os.fork()
         if (m == 0):
-            print("| [+] Motor\t\t\t|")
             motor()
        
+        # Wait for motor to finish up
         sleep(5)
 
         # Kill Processes and clean up
@@ -274,7 +273,7 @@ while True:
         os.wait()
         
 
-        # Update script information
+        # Update current world
         part_count += 1
         if (part_count == 3):
             part_count = 1
@@ -283,18 +282,18 @@ while True:
             if (day_count == 15):
                 day_count = 1
 
-        # Write history to database
+        # Log history into database
         pushTime = datetime.now()
         writeHistory(pushTime, expectedTime, medicationName, amount)
 
-        # Update quick information file for web app
+        # Update quick information file for web app. Estimated refill date
+        # is only calculated when world is 1-1
         if (world == "1-1"):
             strdt = str(datetime.today()).split(' ')[0]
             d = datetime.strptime(strdt, "%Y-%m-%d")
             erd = d + timedelta(days=14)
 
+        # Update quick_info.csv with correct values
         quickInfo(medicationName,pushTime,erd)
 
         dispense = False
-        print("| [+] Finished Dispensing!\t\t|")
-

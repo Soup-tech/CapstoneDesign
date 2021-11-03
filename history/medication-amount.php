@@ -1,6 +1,11 @@
 <?php
     require '../includes/header.php';
 
+    // Check if the user is logged in, if not redirect to the login page
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
+        header("Location: /index.php");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>

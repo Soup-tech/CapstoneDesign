@@ -6,6 +6,9 @@
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== True) {
         header("Location: /index.php");
         exit;
+    } else if (!isset($_SESSION['caregiver'])) { // Ensure users cannot access caregiver menus
+        header("Location: /home.php");
+        exit;
     }
     
 ?>

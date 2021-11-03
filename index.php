@@ -5,13 +5,6 @@
 	// Start session
 	session_start();
 
-	// Check if user is already logged in
-	/*
-	if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == True) {
-		header("location: home.php");
-		exit;
-	}
-	*/
 	$username = "";
 	$password = "";
 	$username_err = $password_err = $login_err = "";
@@ -68,7 +61,7 @@
 									// Is the loggedin user a caregiver?
 									if ($caregiver == 1) {
 										$_SESSION['caregiver'] = True;
-									}
+									} 
 
 									header("Location: home.php");
 								}

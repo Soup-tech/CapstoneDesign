@@ -153,8 +153,8 @@ def killAudio():
     pid9 = ffplay9.stdout.read().decode('utf-8')
 
     # String to array of process ID's
-    pid8 = pid.split('\n')
-    pid9 = pid.split('\n')
+    pid8 = pid8.split('\n')
+    pid9 = pid9.split('\n')
 
     # Kill processes
     for p in pid8:

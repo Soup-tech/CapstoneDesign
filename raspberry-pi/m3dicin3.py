@@ -231,6 +231,10 @@ while True:
             dayCount = row[1]
             amount = row[2]
             expectedTime = row[3]
+    print("-------------------------") 
+    print(f"| Current Time: {current_time}\t|")
+    print(f"| Current World: {world}\t|")
+    print("-------------------------")
 
     cur.close()
     sleep(10)
@@ -281,6 +285,7 @@ while True:
             
             if (day_count == 15):
                 day_count = 1
+                sys.exit(0)
 
         # Log history into database
         pushTime = datetime.now()

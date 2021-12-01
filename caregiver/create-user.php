@@ -95,16 +95,17 @@
 
             if ($stmt = mysqli_prepare($conn,$sql)) {
                 // Bind 
-                mysqli_stmt_bind_param($stmt,"sssss",$param_name,$param_username,$param_email,$param_password,$param_caregiver);
+                mysqli_stmt_bind_param($stmt,"sssss",$param_name,$param_username,$param_email,$param_password,$param_user);
                 
                 $param_name = $name;
                 $param_username = $username;
                 $param_email = $email;
                 $param_password = password_hash($password, PASSWORD_DEFAULT);
-                $param_caregiver = 1;
+                $param_user = 0;
                 
                 if (mysqli_stmt_execute($stmt)) {
-                    echo "Works!";
+                    header("Location: home.php");
+                    exit;
                 } else {
                     echo "Not works";
                 }
@@ -130,8 +131,8 @@
     </head>
     <body>
         <div class="wrapper">
-            <h2>Create New Caregiver</h2>
-            <p>Caregivers are able to add, remove and edit medication</p>
+            <h2>Create User</h2>
+            <p>Users will only be able to see the history of their taken medication</p>
             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
                 <div class="form-group">
                     <label>Name</label>

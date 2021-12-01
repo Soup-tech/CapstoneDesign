@@ -8,7 +8,8 @@
 
 	<body>
 		<div class="header">
-			<a href="#default" class="logo">Our_Logo</a>
+			<img src="assets/matt-removebg-preview.png" alt="Our Logo"/>
+			<!-- <a href="/assets/matt.png" class="logo">Our_Logo</a> -->
 			<div class="header-right">
 				
 				<?php 

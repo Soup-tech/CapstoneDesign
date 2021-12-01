@@ -27,19 +27,16 @@
     </head>
     <body>
     
-      
-    
         <div class="wrapper">
             <div class="form-group">
                 <a href="medication-scheduling.php">Medication and Scheduling Menu</a>
             </div>
             <div class="form-group">
-                <a href="caregiver-select.php">View Caregivers</a>
+                <a href="add-caregiver.php">Add Caregiver</a>
             </div>
             <div class="form-group">
-                <a href="#edit-users">Edit Users</a>
+                <a href="display-users.php">Edit Users</a>
             </div>
-
         </div>
     </body>
 </html>

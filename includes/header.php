@@ -8,7 +8,7 @@
 
 	<body>
 		<div class="header">
-			<img src="assets/matt-removebg-preview.png" alt="Our Logo"/>
+			<img src="/assets/MED-MAG_NoBG.png" alt="Our Logo"/>
 			<!-- <a href="/assets/matt.png" class="logo">Our_Logo</a> -->
 			<div class="header-right">
 				

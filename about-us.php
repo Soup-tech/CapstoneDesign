@@ -15,8 +15,8 @@
     <body>
         <!-- Title section -->
         <div class="about-section">
-            <h1>About Us Page</h1>
-            <p>Information here</p>
+            <h1>About Us </h1>
+            <p>Med-Mag Medication Dispenser Development Team</p>
         </div>
 
         <!-- Team -->
@@ -27,38 +27,37 @@
             <div class="row">
                 <div class="col-3">
                     <div class="card ">
-                            <img src="" alt="Name" style="width:100%"></img>
-                                <h2>Person</h2>
+                            <img src="../assets/matt.jpg" class="card-img-top" alt="Name" style="width:100%"></img>
+                                <h2>Matthew Berlo</h2>
                                 <p class="title">Team Member</p>
-                                <p>Description/Biography/Studying?</p>
-                                <p>contain info</p>
+                                <p>Electrical Engineering</p>
+                                
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="card">
-                            <img src="" alt="Name" style="width:100%"></img>
-                                <h2>Person</h2>
+                            <img src="../assets/max.jpg" alt="Name" class="card-img-top" style="width:100%"></img>
+                                <h2>Max Campbell</h2>
                                 <p class="title">Team Member</p>
-                                <p>Description/Biography/Studying?</p>
-                                <p>contain info</p>
+                                <p>Computer Engineering</p>
                         </div>
                     </div>
                 <div class="col-3">
                     <div class="card">
-                            <img src="" alt="Name" style="width:100%"></img>
-                                <h2>Person</h2>
+                            <img src="../assets/Hunter.png" class="card-img-top" alt="" style="width:100%"></img>
+                                <h2>Hunter Farley</h2>
                                 <p class="title">Team Member</p>
-                                <p>Description/Biography/Studying?</p>
-                                <p>contain info</p>
+                                <p>Computer Engineering</p>
+                                 
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="card">
-                        <img src="" alt="Name" style="width:100%"></img>
-                            <h2>Person</h2>
+                        <img src="../assets/dennis.jpg" alt="Name" class="card-img-top" style="width:100%"></img>
+                            <h2>Dennis Zidarov</h2>
                             <p class="title">Team Member</p>
-                            <p>Description/Biography/Studying?</p>
-                            <p>contain info</p>
+                            <p>Computer Engineering</p>
+                            
                     </div>
                 </div>
             </div>

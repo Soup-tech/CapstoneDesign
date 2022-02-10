@@ -6,6 +6,7 @@
       <h1>MedMag</h1>
       <img src="assets/MED-MAG_NoBG.png" />
       <p>Medicine Magazine (MedMag) is the product of the senior design project of Mathew Berlo, Maximillian Campbell, Gregory Farley and Dennis Zidarov. The goal of the MedMag was to enable independent living for the elderly and mentally disabled by giving them peace of mind in regards to their medication management. The MedMag project was designed and implemented from January 2021 to December 2021.</p>
+	   <p>For a quick summary, check out our <a href="assets/Final Brochure.pdf">Brochure</a>!</p>
       <h1>Table of Contents</h1>
       <ul>
          <li><a href="mission">Mission Statement</a></li>
@@ -73,7 +74,9 @@
 	   </ul>
 	   <p>The backend application, <a href="raspberry-pi/m3dicin3.py">m3dicin3.py</a>, was written in Python. This program acts as the backbone for the MedMag as it pulls information from the database and alerts the user when it is time to take their medication. m3dicin3.py is also responsible for handling interrupts and user interactions.</p>
 	   <h1><a id="conc">Conclusion</a></h1>
-	   <p>Our medication dispenser is an easy to use, cost effective solution to the problem of getting medication to those in need of assistance. Our design allows for easy medication refills and easy dispensing. In addition remote monitoring tools provide the caregiver with updates as to patient usage allowing for peace of mind. </p>
+	   <p>Our medication dispenser is an easy to use, cost effective solution to the problem of getting medication to those in need of assistance. Our design allows for easy medication refills and easy dispensing. In addition remote monitoring tools provide the caregiver with updates as to patient usage allowing for peace of mind.</p>
+	   <img src="assets/ganttchart.png" />
+	   <p>Figure 4: Final Gantt Chart</p>
    </body>
 </html>
 

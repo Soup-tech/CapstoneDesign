@@ -9,15 +9,15 @@
 	   <p>For a quick summary, check out our <a href="assets/Final Brochure.pdf">Brochure</a>!</p>
       <h1>Table of Contents</h1>
       <ul>
-         <li><a href="mission">Mission Statement</a></li>
-         <li><a href="management">Project Management</a></li>
-         <li><a href="technologies">Technologies</a></li>
+         <li>Mission Statement</li>
+         <li>Project Management</li>
+         <li>Technologies</li>
          <ul>
-		 <li><a href="hardesign">Hardware Design</a></li>
-		 <li><a href="hardspecs">Hardware Specifications</a></li>
-		 <li><a href="softspecs">Software</a></li>
+		 <li>Hardware Design</li>
+		 <li>Hardware Specifications</li>
+		 <li>Software</li>
          </ul>
-      	 <li><a href="conc">Conclusion</a></li>
+      	 <li>Conclusion</li>
       </ul>
    </head>
    <body>

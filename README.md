@@ -27,7 +27,7 @@
       <p>Extensive background research has been done from small $20 devices with minimum functionality to $1,500 devices that act as smart devices by interacting in the home. Medication Dispensing Devices need to be intuitive and easy to use for both the patient and the caregiver, allowing for scheduled dispensation of medication. In addition to being intuitive the device needs to have a storage capacity capable of storing approximately 2 weeks worth of medication for the average user.</p>
       <h1><a id="management">Project Management</a></h1>
       <ul>
-         <li>Mattew Berlo</li>
+         <li>Matthew Berlo</li>
          <ul>
             <li>Hardware Designer</li>
             <li>Hardware and Software Tester</li>

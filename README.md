@@ -2,13 +2,28 @@
 <html lang="en">
   <head>
     <h1>MedMag</h1>
-    <p>TODO:</p>
-    <ul>
-      <li>Create better header for README</li>
-    </ul>
+	  <img src="assets/MED-MAG_NoBG.png" />
+	  <p>Medicine Magazine (MedMag) is the product of the senior design project of Mathew Berlo, Maximillian Campbell, Gregory Farley and Dennis Zidarov. The goal of the MedMag was to enable independent living for the elderly and mentally disabled by giving them peace of mind in regards to their medication management. The MedMag project was designed and implemented from January 2021 to December 2021.</p>
+    <h1>Table of Contents</h1>
+	  <ul>
+		  <li><a href="mission">Mission Statement</a></li>
+		  <li><a href="arch">Overall Architecture</a></li>
+		  <li><a href="technologies">Technologies</a></li>
+		  <ul>
+			  <li>External Design</li>
+			  <li>Hardware</li>
+			  <li>Software</li>
+		  </ul>
+		  <li>Conclusion</li>
+	  </ul>
   </head>
   
   <body>
+	  <h1><a id="mission">Mission Statement</a></h1>
+	  <p><b>To design and build an automatic medication dispenser to allow elderly, mentally disabled and mentally ill to take medication at appropriate times, without the risk of missing medication intake times or double dosing.</b></p>
+	  <p>In the United States many people take prescription medications, particularly the elderly population. In the 50-64 age group the average individual has 13 annually filled prescriptions, those aged 65-79 have on average 20 yearly prescriptions, and those 80+ have 22. This indicates that the device should have the capacity to store and dispense at minimum 20 distinct medications.</p>
+	  <p>Extensive background research has been done from small $20 devices with minimum functionality to $1,500 devices that act as smart devices by interacting in the home. Medication Dispensing Devices need to be intuitive and easy to use for both the patient and the caregiver, allowing for scheduled dispensation of medication. In addition to being intuitive the device needs to have a storage capacity capable of storing approximately 2 weeks worth of medication for the average user.</p>
+	  <h1><a id="arch">Overall Architecture</a></h1>
     <h2>Raspberry Pi</h2>
     <p>The raspberry pi is the brains of the MegMag. There are two software parts that make up the MedMag:</p>
     <ul>
